@@ -1,0 +1,113 @@
+.enlace {
+    text-align: center;
+    text-decoration: none;
+
+}
+
+/* General Styles for Navbar */
+.navbar {
+    width: 100%; /* La navbar ocupará todo el ancho de la pantalla */
+    background-color: #52683f; /* Cambia el fondo de la navbar */
+    border-radius: 0 0 10px 10px; /* Redondea solo los bordes inferiores */
+    margin-bottom: 15px; /* Espacio debajo de la navbar */
+    box-shadow: 0px 4px 2px -2px gray; /* Sombra de la navbar */
+}
+
+/* Branding (Logo y Título) */
+.navbar-brand {
+    font-family: "New Amsterdam", sans-serif;
+    font-size: 40px;
+    font-weight: bold;
+    color: #f5aa27;
+}
+
+.navbar-brand h1 { /* Color SaboreaBox */
+    color: #f5aa27;
+}
+
+
+/* Navbar Links */
+.navbar-nav .nav-link {
+    font-family: "Roboto Slab", serif;
+    font-size: 20px;
+    color: #ece4d8;
+    transition: color 0.3s ease-in-out;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #f5aa27; /* Color al pasar el cursor */
+}
+
+/* Dropdown Menu */
+.nav-item .dropdown-menu {
+    background-color: #52683f;
+    border: 1px solid #455735;
+}
+
+.nav-item .dropdown-item {
+    color: #ffffff;
+    font-size: 16px;
+}
+
+.nav-item .dropdown-item:hover {
+    background-color: #3a4f2b;
+    color: #f5aa27;
+}
+
+/* Buttons (Login y Register) */
+.navbar .btn-outline-success {
+    margin-left: 10px;
+    color: #fafafa; /* Color letra */
+    border-color: #bd5237;
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+.navbar .btn-outline-success:hover {
+    background-color: #bd5237;
+    color: #f5aa27;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 992px) {
+    .navbar-brand {
+        font-size: 20px;
+    }
+
+    .navbar-nav .nav-link {
+        font-size: 20px;
+    }
+}
+
+.btn {
+    font-family: "Roboto Slab", serif;
+    float: right;
+    background-color: #bd5237;
+}
+
+.navbar-toggler {
+    border: none; /* Elimina el borde */
+    outline: none; /* Elimina el contorno si existe */
+}
+
+.navbar-toggler-icon {
+    background-color: transparent; /* Asegúrate de que el fondo sea transparente */
+}
+
+.navbar-toggler:focus {
+    border: none !important; /* Usar !important para asegurarte de que sobrescriba otros estilos */
+    outline: none !important;
+    box-shadow: none !important; /* Elimina sombras que puedan parecer un borde */
+}
+
+.new-amsterdam-regular {
+    font-family: "New Amsterdam", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.roboto-slab {
+    font-family: "Roboto Slab", serif;
+    font-optical-sizing: auto;
+    font-weight: 400; /* Puedes cambiar el peso según lo necesario, ej.: 100, 300, 400, 700 */
+    font-style: normal;
+}

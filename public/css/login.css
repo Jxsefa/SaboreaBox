@@ -24,7 +24,7 @@ body {
     justify-content: center;
     align-items: center;
     /*background: url() no-repeat;*/
-    background: url(/Image/LogRegist/5.jpg) no-repeat;
+    background: url(/public/images/login.jpg) no-repeat;
     background-size: cover;
     background-position: center;
     backdrop-filter: blur(2.5px);

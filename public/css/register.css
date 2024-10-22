@@ -9,10 +9,10 @@
     font-style: normal;
 }
 
-uniquifier > {
+.roboto-slab {
     font-family: "Roboto Slab", serif;
     font-optical-sizing: auto;
-    font-weight: < weight >;
+    font-weight: 400; /* Puedes cambiar el peso según lo necesario, ej.: 100, 300, 400, 700 */
     font-style: normal;
 }
 
@@ -22,7 +22,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: url(/Image/LogRegist/Regist.png) no-repeat;
+    background: url(/public/images/register.png) no-repeat;
     background-size: cover;
     background-position: center;
     backdrop-filter: blur(2.5px);

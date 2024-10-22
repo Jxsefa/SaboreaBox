@@ -8,15 +8,13 @@ body {
     font-style: normal;
 }
 
-.roboto-slab-
-
-<
-uniquifier > {
+.roboto-slab {
     font-family: "Roboto Slab", serif;
     font-optical-sizing: auto;
-    font-weight: < weight >;
+    font-weight: 400; /* Puedes cambiar el peso según lo necesario, ej.: 100, 300, 400, 700 */
     font-style: normal;
 }
+
 
 .text-center {
     font-family: "Roboto Slab", serif;
