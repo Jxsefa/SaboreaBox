@@ -1,0 +1,72 @@
+body {
+    background-color: #ece4d8;
+}
+
+.new-amsterdam-regular {
+    font-family: "New Amsterdam", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.roboto-slab {
+    font-family: "Roboto Slab", serif;
+    font-optical-sizing: auto;
+    font-weight: 400; /* Puedes cambiar el peso según lo necesario, ej.: 100, 300, 400, 700 */
+    font-style: normal;
+}
+
+
+/* Fondo personalizado */
+.red-background {
+    background-color: #bd5237; /* Color de fondo que contraste */
+    border-radius: 20px; /* Esquinas redondeadas */
+    padding: 10px; /* Espacio interno */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Sombra para un efecto de profundidad */
+    margin-bottom: 40px; /* Añade margen inferior para separar del footer */
+}
+
+/* Encabezado */
+h2.text-center {
+    font-family: "New Amsterdam", sans-serif;
+    color: #e8bb4b; /* Marrón oscuro */
+}
+
+/* Justificar el texto */
+.justificado {
+    color: #ffffff; /* Color del texto para contraste */
+    font-family: "Roboto Slab", serif;
+    text-align: justify; /* Justificar el texto */
+    max-width: 80%; /* Ancho máximo del párrafo */
+    margin: 0 auto; /* Centrar el párrafo */
+}
+
+/* Imágenes del carrusel */
+.custom-carousel-img {
+    width: 950px; /* Ajusta este valor según el tamaño deseado */
+    height: 300px; /* Ajusta este valor según el tamaño deseado */
+    object-fit: cover; /* Mantener la proporción */
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.carousel {
+    position: relative; /* Establecer posición relativa al carrusel */
+}
+
+.carousel-control-prev, .carousel-control-next {
+    position: absolute;
+    top: 50%; /* Centrarlos verticalmente */
+    transform: translateY(-50%); /* Ajustar el centro */
+}
+
+/* Footer personalizado */
+.custom-footer {
+    background-color: #3a4f2b; /* Slate gray */
+    color: #fff;
+    font-size: 0.9em;
+    margin-top: auto; /* Empuja el footer al final */
+}
+
+#productosCarrusel {
+    margin-bottom: 20px; /* Espacio entre el carrusel y el footer */
+}

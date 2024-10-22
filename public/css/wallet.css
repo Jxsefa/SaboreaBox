@@ -1,0 +1,326 @@
+body {
+    background-color: #ece4d8;
+}
+
+/*INICIO NAV*/
+.enlace {
+    text-align: center;
+    text-decoration: none;
+
+}
+
+/* General Styles for Navbar */
+.navbar {
+    width: 100%; /* La navbar ocupará todo el ancho de la pantalla */
+    background-color: #52683f; /* Cambia el fondo de la navbar */
+    border-radius: 0 0 10px 10px; /* Redondea solo los bordes inferiores */
+    margin-bottom: 15px; /* Espacio debajo de la navbar */
+    box-shadow: 0px 4px 2px -2px gray; /* Sombra de la navbar */
+}
+
+/* Branding (Logo y Título) */
+.navbar-brand {
+    font-family: "New Amsterdam", sans-serif;
+    font-size: 40px;
+    font-weight: bold;
+    color: #f5aa27;
+}
+
+.navbar-brand h1 { /* Color SaboreaBox */
+    color: #f5aa27;
+}
+
+
+/* Navbar Links */
+.navbar-nav .nav-link {
+    font-family: "Roboto Slab", serif;
+    font-size: 20px;
+    color: #ece4d8;
+    transition: color 0.3s ease-in-out;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #f5aa27; /* Color al pasar el cursor */
+}
+
+/* Dropdown Menu */
+.nav-item .dropdown-menu {
+    background-color: #52683f;
+    border: 1px solid #455735;
+}
+
+.nav-item .dropdown-item {
+    color: #ffffff;
+    font-size: 16px;
+}
+
+.nav-item .dropdown-item:hover {
+    background-color: #3a4f2b;
+    color: #f5aa27;
+}
+
+/* Buttons (Login y Register) */
+.navbar .btn-outline-success {
+    margin-left: 10px;
+    color: #fafafa; /* Color letra */
+    border-color: #bd5237;
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+.navbar .btn-outline-success:hover {
+    background-color: #bd5237;
+    color: #f5aa27;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 992px) {
+    .navbar-brand {
+        font-size: 20px;
+    }
+
+    .navbar-nav .nav-link {
+        font-size: 20px;
+    }
+}
+
+.btn {
+    font-family: "Roboto Slab", serif;
+    float: right;
+    background-color: #bd5237;
+}
+
+.navbar-toggler {
+    border: none; /* Elimina el borde */
+    outline: none; /* Elimina el contorno si existe */
+}
+
+.navbar-toggler-icon {
+    background-color: transparent; /* Asegúrate de que el fondo sea transparente */
+}
+
+.navbar-toggler:focus {
+    border: none !important; /* Usar !important para asegurarte de que sobrescriba otros estilos */
+    outline: none !important;
+    box-shadow: none !important; /* Elimina sombras que puedan parecer un borde */
+}
+
+.new-amsterdam-regular {
+    font-family: "New Amsterdam", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+uniquifier > {
+    font-family: "Roboto Slab", serif;
+    font-optical-sizing: auto;
+    font-weight: < weight >;
+    font-style: normal;
+}
+
+/*FIN NAV*/
+/* Estilos para el contenedor principal de la billetera */
+.wallet-container {
+    background-color: #f5f5f5; /* Fondo gris claro */
+    padding: 20px; /* Relleno interno */
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+}
+
+/* Estilos para los encabezados de las tarjetas */
+.card-header {
+    background-color: #3a4f2b; /* Fondo rojo oscuro */
+    color: white; /* Texto en blanco */
+    font-size: 18px; /* Tamaño de fuente grande */
+    font-weight: bold; /* Negrita para el texto */
+}
+
+/* Estilos para el cuerpo de las tarjetas */
+.card-body {
+    background-color: #fff; /* Fondo blanco */
+    border-radius: 10px; /* Bordes redondeados */
+    padding: 20px; /* Relleno interno */
+}
+
+/* Estilos para los párrafos dentro de las tarjetas */
+.card p {
+    font-size: 16px; /* Tamaño de fuente estándar */
+    color: #ffffff; /* Color de texto gris oscuro */
+}
+
+/* Estilos mejorados para la tarjeta virtual */
+.virtual-card {
+    background: linear-gradient(135deg, #486235, #56753f); /* Degradado de rojo oscuro a naranja */
+    color: white; /* Texto en blanco */
+    border-radius: 15px; /* Bordes más redondeados */
+    padding: 20px; /* Relleno interno */
+    margin-bottom: 20px; /* Espacio inferior */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    position: relative; /* Para posicionar los elementos ::before y ::after */
+    overflow: hidden; /* Oculta cualquier desbordamiento de contenido */
+}
+
+/* Elemento decorativo: círculo superior derecho */
+.virtual-card::before {
+    content: "";
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    background-color: rgba(255, 255, 255, 0.2); /* Fondo blanco semitransparente */
+    top: -30px;
+    right: -30px;
+    border-radius: 50%; /* Forma circular */
+    z-index: 1; /* Detrás del contenido */
+}
+
+/* Elemento decorativo: círculo inferior izquierdo */
+.virtual-card::after {
+    content: "";
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    background-color: rgba(255, 255, 255, 0.1); /* Fondo blanco más claro */
+    bottom: -70px;
+    left: -70px;
+    border-radius: 50%; /* Forma circular */
+    z-index: 1; /* Detrás del contenido */
+}
+
+/* Estilos para el título dentro de la tarjeta virtual */
+.virtual-card-header h6 {
+    font-size: 22px; /* Tamaño de fuente más grande */
+    font-weight: bold; /* Negrita */
+    z-index: 2; /* Por encima de los elementos ::before y ::after */
+    position: relative; /* Asegura que el texto esté encima */
+}
+
+/* Estilos para el cuerpo de la tarjeta virtual */
+.virtual-card-body {
+    z-index: 2; /* El contenido está por encima de los elementos decorativos */
+    position: relative;
+}
+
+/* Estilos para los párrafos dentro de la tarjeta virtual */
+.virtual-card-body p {
+    font-size: 18px; /* Tamaño de fuente un poco mayor */
+    margin: 5px 0; /* Margen superior e inferior */
+}
+
+/* Estilos para el saldo dentro de la tarjeta */
+.virtual-card-body p strong {
+    font-weight: bold; /* Texto en negrita para el saldo */
+}
+
+/* El último párrafo tiene un tamaño de fuente más grande y un margen superior */
+.virtual-card-body p:last-child {
+    font-size: 22px;
+    font-weight: bold;
+    margin-top: 15px;
+}
+
+/* Estilos para el historial de compras */
+.purchase-history {
+    margin-top: 20px; /* Espacio superior */
+}
+
+/* Estilos para el título del historial de compras */
+.purchase-history h6 {
+    font-family: "New Amsterdam", sans-serif;
+    font-size: 18px; /* Tamaño de fuente */
+    margin-bottom: 15px; /* Margen inferior */
+    color: #fcf9f9; /* Texto gris oscuro */
+}
+
+/* Estilos para la tabla dentro del historial de compras */
+.table {
+    font-family: "Roboto Slab", serif;
+    background-color: #fff; /* Fondo blanco */
+    border-radius: 10px; /* Bordes redondeados */
+    overflow: hidden; /* Oculta contenido que se desborde */
+}
+
+/* Estilos para las celdas de la tabla */
+.table th, .table td {
+    font-size: 14px; /* Tamaño de fuente pequeño */
+    text-align: center; /* Alineación centrada */
+
+}
+
+/* Estilos para los encabezados de la tabla */
+.table th {
+    background-color: #56753f; /* Fondo rojo oscuro */
+    color: white; /* Texto en blanco */
+}
+
+/* Estilos para las imágenes dentro de la columna derecha */
+.card-body img {
+    width: 100%; /* Imagen ocupa todo el ancho disponible */
+    height: auto; /* Altura proporcional */
+    border-radius: 8px; /* Bordes redondeados */
+    margin-bottom: 15px; /* Espacio inferior */
+}
+
+/* Estilos para los subtítulos dentro de la columna derecha */
+.card-body h6 {
+    font-family: "New Amsterdam", sans-serif;
+    font-size: 30px; /* Tamaño de fuente */
+    color: #020202; /* Texto gris oscuro */
+    text-align: center;
+    color: #e8bb4b;
+}
+
+/* Estilos para los párrafos dentro de la columna derecha */
+.card-body p {
+    font-size: 14px; /* Tamaño de fuente */
+    color: #020202; /* Texto gris medio */
+    font-family: "Roboto Slab", serif;
+}
+/* Estilo del botón de "Ver productos" */
+.btn-primary {
+    background-color: #f5aa27; /* Color de fondo anaranjado */
+    color: #ffffff; /* Texto en blanco */
+    padding: 10px 20px; /* Espaciado interno */
+    border-radius: 8px; /* Bordes redondeados */
+    text-decoration: none; /* Quita el subrayado del enlace */
+    font-family: "Roboto Slab", serif; /* Fuente personalizada */
+    font-size: 16px; /* Tamaño de fuente */
+    border: none; /* Sin borde */
+    display: inline-block; /* Para comportarse como un botón */
+    transition: background-color 0.3s ease; /* Transición suave al pasar el cursor */
+}
+
+/* Estilo del botón al pasar el cursor */
+.btn-primary:hover {
+    background-color: #486235; /* Cambio de color al pasar el cursor */
+    color: #ffffff; /* Asegura que el texto permanezca blanco */
+    text-decoration: none; /* Sin subrayado al hacer hover */
+}
+
+/* Estilo para el estado activo del botón (cuando se hace clic) */
+.btn-primary:active {
+    background-color: #3d522c; /* Color más oscuro al hacer clic */
+    color: #ffffff; /* Asegura que el texto permanezca blanco */
+}
+
+/* Estilo para cuando el botón ha sido visitado */
+.btn-primary:visited {
+    color: #ffffff; /* Mantiene el color del texto en blanco incluso si el enlace ha sido visitado */
+    text-decoration: none; /* Quita subrayado incluso si el enlace ha sido visitado */
+}
+
+/* Estilo para cuando el botón tiene el foco (enfocado con teclado o clic) */
+.btn-primary:focus {
+    outline: none; /* Elimina el contorno azul de enfoque */
+    box-shadow: 0 0 0 2px rgba(245, 170, 39, 0.5); /* Agrega un contorno suave personalizado */
+}
+
+/* Imágenes del carrusel */
+.custom-carousel-img {
+    width: 100%; /* Asegura que las imágenes ocupen el 100% del contenedor */
+    height: 300px; /* Fija la altura de todas las imágenes */
+    object-fit: cover; /* Mantiene la proporción y recorta si es necesario */
+    border-radius: 15px; /* Bordes redondeados */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Sombra suave */
+}
+
+
+

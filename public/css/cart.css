@@ -1,0 +1,66 @@
+body {
+    background-color: #ece4d8;
+}
+
+.new-amsterdam-regular {
+    font-family: "New Amsterdam", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.roboto-slab-
+
+<
+uniquifier > {
+    font-family: "Roboto Slab", serif;
+    font-optical-sizing: auto;
+    font-weight: < weight >;
+    font-style: normal;
+}
+
+.text-center {
+    font-family: "Roboto Slab", serif;
+    color: #020202;
+}
+
+/*INICIO CARD*/
+.card {
+    border-radius: 10px; /* Slightly rounded corners for the cards */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+}
+
+.card-title {
+    color: #333; /* Darker text for titles */
+}
+
+.card-text {
+    color: #555; /* Slightly lighter text for descriptions */
+}
+
+.btn-danger {
+    background-color: #bd5237; /* Bootstrap default red color */
+}
+
+.btn-danger:hover {
+    color: #f5aa27;
+    background-color: #bd5237;
+}
+
+.btn-success {
+    background-color: #486235; /* Bootstrap default green color */
+}
+
+.btn-success:hover {
+    color: #f5aa27;
+    background-color: #3a4f2b; /* Bootstrap default green color */
+}
+
+/*FIN CARD*/
+
+/* Footer personalizado */
+.custom-footer {
+    background-color: #3a4f2b; /* Slate gray */
+    color: #fff;
+    font-size: 0.9em;
+    margin-top: auto; /* Empuja el footer al final */
+}
