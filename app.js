@@ -1,11 +1,13 @@
+require('dotenv').config();
+
 const express = require('express');
+const http = require("http");
+const { neon } = require("@neondatabase/serverless");
+
 const { engine } = require('express-handlebars');
 
 const app = express();
-const PORT = 3000;
-
-const http = require("http");
-const { neon } = require("@neondatabase/serverless");
+const PORT = 2000;
 
 //Base de Datos
 const sql = neon(process.env.DATABASE_URL);
@@ -21,6 +23,7 @@ http.createServer(requestHandler).listen(3000, () => {
     console.log("Server running at http://localhost:3000");
 });
 
+
 // Configurar Handlebars como motor de vistas
 app.engine('handlebars', engine());
 app.set('view engine', 'handlebars');
@@ -28,7 +31,7 @@ app.set('views', __dirname + '/views');
 
 // Middleware para servir archivos estáticos
 app.use(express.static('./'));
-require("dotenv").config();
+
 
 // Rutas
 app.get('/', (req, res) => {
