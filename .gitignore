@@ -1,5 +1,4 @@
 .env
-.idea/
 .vscode/
 .DS_Store
 *.log
@@ -8,3 +7,4 @@ yarn-debug.log*
 yarn-error.log*
 /public/uploads
 node_modules/
+.idea
