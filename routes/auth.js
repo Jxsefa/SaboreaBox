@@ -1,4 +1,4 @@
-// routes/auth.js
+const bcrypt = require('bcrypt');
 const express = require('express');
 const router = express.Router();
 const { neon } = require('@neondatabase/serverless');
@@ -6,47 +6,71 @@ const { neon } = require('@neondatabase/serverless');
 // Inicializar la conexión a la base de datos
 const sql = neon(process.env.DATABASE_URL);
 
-// Ruta para registro de usuario
+// Registro de usuario
 router.post('/register', async (req, res) => {
-    console.log('Datos recibidos:', req.body); // Imprime los datos recibidos
-
     const { username, email, password } = req.body;
 
     if (!username || !email || !password) {
-        return res.status(400).send('Todos los campos son obligatorios.');
+        return res.status(400).json({ message: 'Todos los campos son obligatorios.' });
     }
 
     try {
-        // Verificar si el email ya existe en la tabla auth
+        // Verificar si el usuario ya existe en 'users' o 'auth'
+        const usernameExists = await sql`SELECT * FROM users WHERE username = ${username}`;
         const emailExists = await sql`SELECT * FROM auth WHERE email = ${email}`;
 
-        if (emailExists.length > 0) {
-            return res.status(400).send('El correo ya está registrado.');
+        if (usernameExists.length > 0 || emailExists.length > 0) {
+            return res.status(400).json({ message: 'El usuario o correo ya existe.' });
         }
 
-        // Verificar si el username ya existe en la tabla users
-        const userExists = await sql`SELECT * FROM users WHERE username = ${username}`;
+        // Hashear la contraseña antes de guardar
+        const hashedPassword = await bcrypt.hash(password, 10);  // Aquí es donde se hace el hash
 
-        if (userExists.length > 0) {
-            return res.status(400).send('El nombre de usuario ya existe.');
-        }
-
-        // Insertar en la tabla users
+        // Guardar el nuevo usuario en 'auth' y 'users'
+        await sql`
+            INSERT INTO auth (email, password, created_at)
+            VALUES (${email}, ${hashedPassword}, NOW())
+        `;
         await sql`
             INSERT INTO users (username, role, created_at)
             VALUES (${username}, 'customer', NOW())
         `;
 
-        // Insertar en la tabla auth
-        await sql`
-            INSERT INTO auth (email, password, created_at)
-            VALUES (${email}, ${password}, NOW())
-        `;
-
-        res.status(201).send('Usuario registrado correctamente.');
+        // Enviar respuesta JSON de éxito
+        res.status(201).json({ message: 'Usuario registrado correctamente.' });
     } catch (error) {
         console.error('Error al registrar usuario:', error);
-        res.status(500).send('Error en el servidor.');
+        res.status(500).json({ message: 'Error en el servidor.' });
+    }
+});
+
+// Login de usuario
+router.post('/login', async (req, res) => {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+        return res.status(400).json({ message: 'Todos los campos son obligatorios.' });
+    }
+
+    try {
+        // Buscar el usuario por el email en la tabla 'auth'
+        const user = await sql`SELECT * FROM auth WHERE email = ${email}`;
+        if (user.length === 0) {
+            return res.status(400).json({ message: 'Correo o contraseña incorrectos.' });
+        }
+
+        // Comparar la contraseña
+        const passwordMatch = await bcrypt.compare(password, user[0].password);
+        if (!passwordMatch) {
+            return res.status(400).json({ message: 'Correo o contraseña incorrectos.' });
+        }
+
+        // Enviar respuesta JSON de éxito y crear una cookie de sesión
+        res.cookie('user_id', user[0].id, { httpOnly: true });
+        res.status(200).json({ message: 'Inicio de sesión exitoso.' });
+    } catch (error) {
+        console.error('Error en el login:', error);
+        res.status(500).json({ message: 'Error en el servidor.' });
     }
 });
 

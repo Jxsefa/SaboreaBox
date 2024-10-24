@@ -7,8 +7,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=New+Amsterdam&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <title>SABOREABOX | Login</title>
@@ -20,38 +18,44 @@
         <span>SaboreaBox</span>
         <header>Iniciar Sesión</header>
     </div>
-
-    <div class="user">
-        <input type="text" placeholder="Usuario" required>
-        <i class='bx bx-user' style='color:#ffffff'></i>
-    </div>
-
-    <div class="password">
-        <input type="password" placeholder="Contraseña">
-        <i class='bx bxs-lock-alt' style='color:#ffffff'></i>
-    </div>
-
-    <div class="remember-forget">
-        <div class="remember">
-            <input type="checkbox" id="check">
-            <label for="charset">Recordarme</label>
+    <form id="loginForm">
+        <div class="user">
+            <input type="email" name="email" placeholder="Correo Electrónico" required>
+            <i class='bx bx-user'></i>
         </div>
-        <div class="forgot">
-            <a href="#">¿Olvidaste la contraseña?</a>
+
+        <div class="password">
+            <input type="password" name="password" placeholder="Contraseña" required>
+            <i class='bx bxs-lock-alt'></i>
         </div>
-    </div>
 
-    <div class="Button-container">
-        <button class="button"><a href="/">Inicio</a></button>
-    </div>
+        <div class="Button-container">
+            <button type="submit" class="button">Iniciar Sesión</button>
+        </div>
+    </form>
+    <div id="alert-container"></div>
 
-    <div class="registro">
-        No tienes una cuenta? <a href="/login/register">Registro</a>
-    </div>
+    <script>
+        const form = document.getElementById('loginForm');
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(form);
+            const response = await fetch('/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(Object.fromEntries(formData))
+            });
+            const result = await response.json();
+            const alertContainer = document.getElementById('alert-container');
 
-    <div class="admin">
-        <a href="/admin">Admin_Access</a>
-    </div>
+            if (response.ok) {
+                alertContainer.innerHTML = `<div class="alert alert-success">${result.message}</div>`;
+                setTimeout(() => window.location.href = '/user', 1500); // Redirige al perfil
+            } else {
+                alertContainer.innerHTML = `<div class="alert alert-danger">${result.message}</div>`;
+            }
+        });
+    </script>
 </div>
 </body>
 </html>

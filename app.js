@@ -1,9 +1,9 @@
 require('dotenv').config();
-
 const express = require('express');
 const { neon } = require('@neondatabase/serverless');
 const cookieParser = require('cookie-parser');
 const { engine } = require('express-handlebars');
+const authRoutes = require('./routes/auth'); // Importar rutas de autenticación
 
 const app = express();
 const PORT = 2000;
@@ -25,11 +25,39 @@ app.set('views', __dirname + '/views');
 // Middleware para servir archivos estáticos
 app.use(express.static('./'));
 
-// Importar y usar rutas de autenticación
-const authRoutes = require('./routes/auth');
-app.use('/', authRoutes); // Usar las rutas de autenticación
+// Usar rutas de autenticación
+app.use('/', authRoutes);
 
-// Rutas principales
+// Ruta para obtener y mostrar los productos en la vista 'products'
+app.get('/products', async (req, res) => {
+    try {
+        // Obtener todos los productos desde la tabla 'products' que estén activos
+        const products = await sql`SELECT * FROM products WHERE active = true`;
+
+        // Renderizar la vista 'products' pasando los productos
+        res.render('products', { title: 'Catálogo de Productos', products });
+    } catch (error) {
+        console.error('Error al obtener productos:', error);
+        res.status(500).send('Error en el servidor.');
+    }
+});
+
+// Ruta para obtener y mostrar los productos en la vista 'products'
+app.get('/products', async (req, res) => {
+    try {
+        // Obtener todos los productos desde la tabla 'products' que estén activos
+        const products = await sql`SELECT id, name, price, stock, category, description, content, image_url FROM products WHERE active = true`;
+
+        // Renderizar la vista 'products' pasando los productos
+        res.render('products', { title: 'Catálogo de Productos', products });
+    } catch (error) {
+        console.error('Error al obtener productos:', error);
+        res.status(500).send('Error en el servidor.');
+    }
+});
+
+
+// Rutas adicionales
 app.get('/', (req, res) => {
     res.render('home', { title: 'Inicio' });
 });
@@ -41,9 +69,6 @@ app.get('/cart', (req, res) => {
 });
 app.get('/login', (req, res) => {
     res.render('login', { title: 'Inicio sesión' });
-});
-app.get('/products', (req, res) => {
-    res.render('products', { title: 'Productos' });
 });
 app.get('/register', (req, res) => {
     res.render('register', { title: 'Registro' });

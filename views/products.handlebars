@@ -3,15 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SaboreaBox</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=New+Amsterdam&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <title>SaboreaBox - Catálogo de Productos</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="/public/css/products.css">
 </head>
 <header>
@@ -20,284 +13,59 @@
 <body>
 <div class="container mt-5">
     <div class="row">
-        <!-- Tarjeta 1 -->
-        <div class="col-lg-3 col-md-6 mb-4">
-            <div class="card h-100">
-                <div class="card-img-container position-relative">
-                    <img class="card-img-top" src="/public/images/Postre/tiramisu1.jpg" alt="Tiramisú">
-                    <span class="badge bg-warning text-dark position-absolute bottom-0 end-0 m-2">$10.000</span>
-                    <div class="overlay-text">
-                        <ul>
-                            <li>50g de café granulado</li>
-                            <li>65ml de amaretto</li>
-                            <li>20gr de azúcar</li>
-                            <li>4 yemas de huevo</li>
-                            <li>250g de azúcar flor</li>
-                            <li>1 queso crema </li>
-                            <li>500ml de crema para batir </li>
-                            <li>500gr de galletas de champaña</li>
-                            <li>100gr de Cacao en polvo </li>
-                        </ul>
+        {{#each products}}
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-img-container position-relative">
+                        <img class="card-img-top" src="{{this.image_url}}" alt="{{this.name}}">
+                        <span class="badge bg-warning text-dark position-absolute bottom-0 end-0 m-2">${{this.price}}</span>
+                        <div class="overlay-text">
+                            <p><strong>Stock:</strong> {{this.stock}}</p>
+                            <p><strong>Categoría:</strong> {{this.category}}</p>
+                            <p><strong>Contenido:</strong> {{this.content}}</p>
+                        </div>
                     </div>
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title text-center">Tiramisu Box</h5>
-                    <hr>
-                    <p class="card-text">El tiramisú es un postre moderno, no tradicional. Tiene su origen en el noreste
-                        de Italia</p>
-                    <div class="d-flex justify-content-between mt-3">
-                        <button class="btn btn-primary me-2" type="button">Comprar ahora</button>
-                        <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
-                                data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Añadir al carrito
-                        </button>
+                    <div class="card-body">
+                        <h5 class="card-title text-center">{{this.name}}</h5>
+                        <hr>
+                        <p class="card-text">{{this.description}}</p>
+                        <div class="d-flex justify-content-between mt-3">
+                            <button class="btn btn-primary me-2" type="button">Comprar ahora</button>
+                            <button class="btn btn-primary add-to-cart" data-product-id="{{this.id}}" type="button">Añadir al carrito</button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-
-        <!-- Tarjeta 2 -->
-        <div class="col-lg-3 col-md-6 mb-4">
-            <div class="card h-100">
-                <div class="card-img-container position-relative">
-                    <img class="card-img-top" src="/public/images/Entreadas/Machas-a-la-Parmesana.jpg" alt="Machas">
-                    <span class="badge bg-warning text-dark position-absolute bottom-0 end-0 m-2">$15.000</span>
-                    <div class="overlay-text">
-                        <ul>
-                            <li>20 machas </li>
-                            <li>2 cubitos de mantequilla</li>
-                            <li>260ml de vino blanco</li>
-                            <li>260gr Queso parmesano</li>
-                            <li>Sal de mar</li>
-                            <li>Pimienta</li>
-                            <li>4 limones</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title text-center">Machas Box</h5>
-                    <hr>
-                    <p class="card-text">Este clásico chileno se sirve típicamente como aperitivo y fue inventado por un inmigrante italiano Viña del Mar Una entrada que nunca falla</p>
-                    <div class="d-flex justify-content-between mt-3">
-                        <button class="btn btn-primary me-2" type="button">Comprar ahora</button>
-                        <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
-                                data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Añadir al carrito
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Tarjeta 3 -->
-        <div class="col-lg-3 col-md-6 mb-4">
-            <div class="card h-100">
-                <div class="card-img-container position-relative">
-                    <img class="card-img-top" src="/public/images/Principal/Porotos.jpg" alt="Porotos">
-                    <span class="badge bg-warning text-dark position-absolute bottom-0 end-0 m-2">$8.000</span>
-                    <div class="overlay-text">
-                        <ul>
-                            <li>20gr de ají color</li>
-                            <li>120gr de cebolla</li>
-                            <li>2kgr de porotos granados</li>
-                            <li>400gr de zapallo</li>
-                            <li>550gr de choclo</li>
-                            <li>70gr de albahaca</li>
-                            <li>25gr de comino</li>
-                            <li>10gr de pimienta</li>
-                            <li>20gr de sal</li>
-                            <li>360ml de leche</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title text-center">Porotos Box</h5>
-                    <hr>
-                    <p class="card-text">Los porotos, originarios de América, son pequeñas legumbres llenas de sabor y nutrientes. Su textura suave y cremosa los hace perfectos</p>
-                    <div class="d-flex justify-content-between mt-3">
-                        <button class="btn btn-primary me-2" type="button">Comprar ahora</button>
-                        <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
-                                data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Añadir al carrito
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Tarjeta 4 -->
-        <div class="col-lg-3 col-md-6 mb-4">
-            <div class="card h-100">
-                <div class="card-img-container position-relative">
-                    <img class="card-img-top" src="/public/images/Principal/Fideos.jpg" alt="Fideos">
-                    <span class="badge bg-warning text-dark position-absolute bottom-0 end-0 m-2">$6.000</span>
-                    <div class="overlay-text">
-                        <ul>
-                            <li>60ml de aceite</li>
-                            <li>120g de cebolla</li>
-                            <li>250g de zanahoria</li>
-                            <li>Paquete vienesas</li>
-                            <li>20g de sal</li>
-                            <li>300ml de salsa de tomate</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title text-center">Fideos Box</h5>
-                    <hr>
-                    <p class="card-text">Los fideos con salsa son una combinación clásica que nunca falla. Originarios de Italia. Cada bocado ofrece una mezcla perfecta de texturas y sabores</p>
-                    <div class="d-flex justify-content-between mt-3">
-                        <button class="btn btn-primary me-2" type="button">Comprar ahora</button>
-                        <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
-                                data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Añadir al carrito
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
+        {{/each}}
     </div>
 </div>
-<div class="container mt-5">
-    <div class="row">
-        <!-- Tarjeta 5 -->
-        <div class="col-lg-3 col-md-6 mb-4">
-            <div class="card h-100">
-                <div class="card-img-container position-relative">
-                    <img class="card-img-top" src="/public/images/Postre/Leche-Asada-Web.jpg" alt="Leche asada">
-                    <span class="badge bg-warning text-dark position-absolute bottom-0 end-0 m-2">$6.000</span>
-                    <div class="overlay-text">
-                        <ul>
-                            <li>200g de azucar</li>
-                            <li>50ml de ecencia de vainilla</li>
-                            <li>750ml de leche</li>
-                            <li>6 huevos</li>
-                            <li>20g de ralladura de limon</li>
-                            <li>300ml de salsa de caramelo</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title text-center">Leche asada Box</h5>
-                    <hr>
-                    <p class="card-text">La leche asada es un postre clásico de la cocina latinoamericana, conocido por su suavidad y sabor dulce. Su combinación de sabores simples y texturas hace que cada bocado sea una experiencia reconfortante y nostálgica</p>
-                    <div class="d-flex justify-content-between mt-3">
-                        <button class="btn btn-primary me-2" type="button">Comprar ahora</button>
-                        <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
-                                data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Añadir al carrito
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script>
+    // Función para añadir productos al carrito
+    document.querySelectorAll('.add-to-cart').forEach(button => {
+        button.addEventListener('click', async () => {
+            const productId = button.getAttribute('data-product-id');
+            try {
+                const response = await fetch('/cart/add', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ productId })
+                });
 
-        <!-- Tarjeta 6 -->
-        <div class="col-lg-3 col-md-6 mb-4">
-            <div class="card h-100">
-                <div class="card-img-container position-relative">
-                    <img class="card-img-top" src="/public/images/Entreadas/papas-bravas-internet-web-570x458.jpg"
-                         alt="Papas Bravas">
-                    <span class="badge bg-warning text-dark position-absolute bottom-0 end-0 m-2">$5.000</span>
-                    <div class="overlay-text">
-                        <ul>
-                            <li>60ml aceite de oliva</li>
-                            <li>75gr de cebolla</li>
-                            <li>3 hojas de laurel</li>
-                            <li>5gr de oregano</li>
-                            <li>10gr de aji color</li>
-                            <li>1 ajo</li>
-                            <li>30ml de vinagre blanco</li>
-                            <li>300gr de salasa de tomate</li>
-                            <li>1kg de papas</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title text-center">Papas bravas Box</h5>
-                    <hr>
-                    <p class="card-text">Este plato es perfecto para compartir y disfrutar en una buena compañía, convirtiéndose en una opción irresistible para los amantes de los sabores intensos y la comida reconfortante. ¡Una explosión de sabor en cada bocado!</p>
-                    <div class="d-flex justify-content-between mt-3">
-                        <button class="btn btn-primary me-2" type="button">Comprar ahora</button>
-                        <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
-                                data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Añadir al carrito
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Tarjeta 7 -->
-        <div class="col-lg-3 col-md-6 mb-4">
-            <div class="card h-100">
-                <div class="card-img-container position-relative">
-                    <img class="card-img-top" src="/public/images/Principal/pollo-al-jugo-web-570x458.jpg"
-                         alt="Pollo al jugo">
-                    <span class="badge bg-warning text-dark position-absolute bottom-0 end-0 m-2">$17.000</span>
-                    <div class="overlay-text">
-                        <ul>
-                            <li>60ml aceite</li>
-                            <li>4 trutos de pollo</li>
-                            <li>3 hojas de laurel</li>
-                            <li>50gr sal de mar</li>
-                            <li>10gr de pimiernta negra</li>
-                            <li>1 ajo</li>
-                            <li>100gr de zanahoria</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title text-center">Pollo al jugo Box</h5>
-                    <hr>
-                    <p class="card-text">Este plato es ideal para una comida familiar o una cena especial, ya que su simplicidad y sabor lo hacen irresistible. ¡Una verdadera delicia que conquista a todos!</p>
-                    <div class="d-flex justify-content-between mt-3">
-                        <button class="btn btn-primary me-2" type="button">Comprar ahora</button>
-                        <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
-                                data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Añadir al carrito
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Tarjeta 8 -->
-        <div class="col-lg-3 col-md-6 mb-4">
-            <div class="card h-100">
-                <div class="card-img-container position-relative">
-                    <img class="card-img-top" src="/public/images/Entreadas/PALTA-REINA.jpg" alt="Palta">
-                    <span class="badge bg-warning text-dark position-absolute bottom-0 end-0 m-2">$8.000</span>
-                    <div class="overlay-text">
-                        <ul>
-                            <li>75gr de apio</li>
-                            <li>240gr de mayonesa</li>
-                            <li>6 paltas</li>
-                            <li>30ml de jugo de limon</li>
-                            <li>50gr de aceituna negra</li>
-                            <li>1 lechuga</li>
-                            <li>500gr de pasta pollo</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title text-center">Palta reina Box</h5>
-                    <hr>
-                    <p class="card-text">Este plato es perfecto como entrada o aperitivo, ofreciendo una combinación de sabores cremosos y suaves que resaltan la riqueza de la palta. ¡Una delicia saludable y satisfactoria!</p>
-                    <div class="d-flex justify-content-between mt-3">
-                        <button class="btn btn-primary me-2" type="button">Comprar ahora</button>
-                        <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
-                                data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Añadir al carrito
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<footer class="custom-footer text-white text-center py-4">
-    <div class="container">
-        <p>&copy; 2024 SaboreaBox. Todos los derechos reservados.</p>
-        <a href="#" class="text-white">Política de Privacidad</a> |
-        <a href="#" class="text-white">Términos de Servicio</a>
-    </div>
-</footer>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
+                if (response.ok) {
+                    alert('Producto añadido al carrito.');
+                } else {
+                    const error = await response.json();
+                    alert(error.message);
+                }
+            } catch (error) {
+                console.error('Error al añadir al carrito:', error);
+                alert('Error al añadir al carrito.');
+            }
+        });
+    });
+</script>
 </body>
 </html>
