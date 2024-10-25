@@ -36,23 +36,31 @@
     <div id="alert-container"></div>
 
     <script>
-        const form = document.getElementById('loginForm');
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const formData = new FormData(form);
-            const response = await fetch('/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(Object.fromEntries(formData))
-            });
-            const result = await response.json();
-            const alertContainer = document.getElementById('alert-container');
+        document.getElementById('loginForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const formData = new FormData(this);
+            const loginData = Object.fromEntries(formData.entries());
 
-            if (response.ok) {
-                alertContainer.innerHTML = `<div class="alert alert-success">${result.message}</div>`;
-                setTimeout(() => window.location.href = '/user', 1500); // Redirige al perfil
-            } else {
-                alertContainer.innerHTML = `<div class="alert alert-danger">${result.message}</div>`;
+            try {
+                const response = await fetch('/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(loginData)
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    // Redirigir a la ruta recibida
+                    window.location.href = result.redirectTo;
+                } else {
+                    alert(result.message || 'Error en el inicio de sesión.');
+                }
+            } catch (error) {
+                console.error('Error al iniciar sesión:', error);
+                alert('Error en el servidor.');
             }
         });
     </script>

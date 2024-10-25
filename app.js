@@ -3,10 +3,12 @@ const express = require('express');
 const { neon } = require('@neondatabase/serverless');
 const cookieParser = require('cookie-parser');
 const { engine } = require('express-handlebars');
+const jwt = require('jsonwebtoken');
 const authRoutes = require('./routes/auth'); // Importar rutas de autenticación
 
 const app = express();
 const PORT = 2000;
+const JWT_SECRET = process.env.JWT_SECRET || 'mi_secreto_super_seguro'; // Clave para JWT
 
 // Conectar a la base de datos Neon
 const sql = neon(process.env.DATABASE_URL);
@@ -25,21 +27,33 @@ app.set('views', __dirname + '/views');
 // Middleware para servir archivos estáticos
 app.use(express.static('./'));
 
+// Middleware para verificar el JWT
+function authenticateToken(req, res, next) {
+    const token = req.cookies.token;
+    if (!token) {
+        console.log('Token no encontrado en la cookie.');
+        return res.redirect('/login');
+    }
+
+    jwt.verify(token, JWT_SECRET, (err, user) => {
+        if (err) {
+            console.log('Token no válido.');
+            return res.redirect('/login');
+        }
+        req.user = user; // Guardar la info del usuario en la request
+        next();
+    });
+}
+
 // Usar rutas de autenticación
 app.use('/', authRoutes);
 
-// Ruta para obtener y mostrar los productos en la vista 'products'
-app.get('/products', async (req, res) => {
-    try {
-        // Obtener todos los productos desde la tabla 'products' que estén activos
-        const products = await sql`SELECT * FROM products WHERE active = true`;
-
-        // Renderizar la vista 'products' pasando los productos
-        res.render('products', { title: 'Catálogo de Productos', products });
-    } catch (error) {
-        console.error('Error al obtener productos:', error);
-        res.status(500).send('Error en el servidor.');
-    }
+// Usar el middleware en rutas protegidas
+app.get('/admin', authenticateToken, (req, res) => {
+    res.render('admin', { title: 'Administración' });
+});
+app.get('/user', authenticateToken, (req, res) => {
+    res.render('user', { title: 'Usuario' });
 });
 
 // Ruta para obtener y mostrar los productos en la vista 'products'
@@ -56,25 +70,18 @@ app.get('/products', async (req, res) => {
     }
 });
 
-
-// Rutas adicionales
+// Rutas públicas
 app.get('/', (req, res) => {
     res.render('home', { title: 'Inicio' });
 });
-app.get('/admin', (req, res) => {
-    res.render('admin', { title: 'Administración' });
-});
 app.get('/cart', (req, res) => {
-    res.render('cart', { title: 'Carro compras' });
+    res.render('cart', { title: 'Carro de compras' });
 });
 app.get('/login', (req, res) => {
-    res.render('login', { title: 'Inicio sesión' });
+    res.render('login', { title: 'Inicio de sesión' });
 });
 app.get('/register', (req, res) => {
     res.render('register', { title: 'Registro' });
-});
-app.get('/user', (req, res) => {
-    res.render('user', { title: 'Usuario' });
 });
 
 // Inicia el servidor en el puerto definido
