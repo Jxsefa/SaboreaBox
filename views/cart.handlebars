@@ -14,89 +14,79 @@
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="/public/css/cart.css">
 </head>
+<header>
+    {{> navbar}}
+</header>
 <body>
 <div class="container mt-5">
     <h2 class="text-center">Tu Carrito de Compras</h2>
     <div class="row">
         <div class="col-md-8">
-            <div class="card mb-3">
-                <div class="row g-0">
-                    <div class="col-md-4">
-                        <img src="../../Image/Postre/tiramisu1.jpg" class="img-fluid rounded-start" alt="Tiramisu Box">
-                    </div>
-                    <div class="col-md-8">
-                        <div class="card-body">
-                            <h5 class="card-title">Tiramisu Box</h5>
-                            <p class="card-text">Precio: $10.000</p>
-                            <div class="d-flex justify-content-between">
-                                <input type="number" class="form-control" value="1" min="1" style="width: 80px;">
-                                <button class="btn btn-danger">Eliminar</button>
+            {{#if cart.length}}
+                {{#each cart}}
+                    <div class="card mb-3">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img src="{{this.image_url}}" class="img-fluid rounded-start" alt="{{this.name}}">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{this.name}}</h5>
+                                    <p class="card-text">Precio: ${{this.price}}</p>
+                                    <div class="d-flex justify-content-between">
+                                        <input type="number" class="form-control" value="{{this.quantity}}" min="1" style="width: 80px;">
+                                        <button class="btn btn-danger remove-from-cart" data-product-id="{{this.id}}">Eliminar</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-
-            <div class="card mb-3">
-                <div class="row g-0">
-                    <div class="col-md-4">
-                        <img src="../../Image/Entreadas/papas-bravas-internet-web-570x458.jpg"
-                             class="img-fluid rounded-start" alt="Machas Box">
-                    </div>
-                    <div class="col-md-8">
-                        <div class="card-body">
-                            <h5 class="card-title">Papas Bravas Box</h5>
-                            <p class="card-text">Precio: $5.000</p>
-                            <div class="d-flex justify-content-between">
-                                <input type="number" class="form-control" value="1" min="1" style="width: 80px;">
-                                <button class="btn btn-danger">Eliminar</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="card mb-3">
-                <div class="row g-0">
-                    <div class="col-md-4">
-                        <img src="../../Image/Entreadas/Machas-a-la-Parmesana.jpg" class="img-fluid rounded-start"
-                             alt="Machas Box">
-                    </div>
-                    <div class="col-md-8">
-                        <div class="card-body">
-                            <h5 class="card-title">Machas Box</h5>
-                            <p class="card-text">Precio: $15.000</p>
-                            <div class="d-flex justify-content-between">
-                                <input type="number" class="form-control" value="1" min="1" style="width: 80px;">
-                                <button class="btn btn-danger">Eliminar</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                {{/each}}
+            {{else}}
+                <p class="text-center">El carrito está vacío.</p>
+            {{/if}}
         </div>
 
         <div class="col-md-4">
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Resumen del Pedido</h5>
-                    <p class="card-text">Subtotal: $30.000</p>
+                    <p class="card-text">Subtotal: ${{calculateSubtotal cart}}</p>
                     <p class="card-text">Envío: $2.000</p>
-                    <p class="card-text"><strong>Total: $32.000</strong></p>
+                    <p class="card-text"><strong>Total: ${{calculateTotal cart}}</strong></p>
                     <button class="btn btn-success w-100">Proceder al Pago</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<footer class="custom-footer text-white text-center py-4">
-    <div class="container">
-        <p>&copy; 2024 SaboreaBox. Todos los derechos reservados.</p>
-        <a href="#" class="text-white">Política de Privacidad</a> |
-        <a href="#" class="text-white">Términos de Servicio</a>
-    </div>
-</footer>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
+
+<script>
+    // Función para eliminar productos del carrito
+    document.querySelectorAll('.remove-from-cart').forEach(button => {
+        button.addEventListener('click', async () => {
+            const productId = button.getAttribute('data-product-id');
+            try {
+                const response = await fetch('/cart/delete', {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ productId })
+                });
+
+                if (response.ok) {
+                    window.location.reload(); // Recargar la página después de eliminar
+                } else {
+                    const error = await response.json();
+                    alert(error.message);
+                }
+            } catch (error) {
+                console.error('Error al eliminar del carrito:', error);
+                alert('Error al eliminar del carrito.');
+            }
+        });
+    });
+</script>
 </body>
 </html>
