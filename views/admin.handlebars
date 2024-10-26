@@ -102,7 +102,7 @@
         <!-- Sección Agregar/Editar Producto -->
         <div id="agregar" class="tab-pane fade" role="tabpanel" aria-labelledby="agregar-tab">
             <h2 class="text-center mb-4">{{#if producto}}Editar Producto{{else}}Agregar Producto{{/if}}</h2>
-            <form id="productForm">
+            <form id="productForm" enctype="multipart/form-data" method="POST" action="/admin/save">
                 {{#if producto}}
                     <input type="hidden" name="id" value="{{producto.id}}">
                 {{/if}}
@@ -131,6 +131,11 @@
                     </select>
                 </div>
 
+                <div class="mb-3">
+                    <label for="productoImagen" class="form-label">Imagen del Producto</label>
+                    <input type="file" class="form-control" id="productoImagen" name="imagen" accept="image/*" required>
+                </div>
+
                 <button type="submit" class="btn btn-primary">
                     {{#if producto}}Actualizar{{else}}Agregar{{/if}}
                 </button>
@@ -147,7 +152,7 @@
                     try {
                         const response = await fetch('/admin/save', {
                             method: 'POST',
-                            body: new URLSearchParams(formData)
+                            body: formData
                         });
 
                         const messageDiv = document.getElementById('message');

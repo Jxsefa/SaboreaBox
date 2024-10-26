@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const { neon } = require('@neondatabase/serverless');
+const multer = require('multer');
+const { v4: uuidv4 } = require('uuid');
+
 
 // Conectar a la base de datos Neon
 const sql = neon(process.env.DATABASE_URL);
@@ -49,27 +52,56 @@ router.get('/', async (req, res) => {
     }
 });
 
-// Ruta para agregar o actualizar productos
-router.post('/save', async (req, res) => {
-    const { id, name, price, stock, category } = req.body;
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        // Establece el directorio de almacenamiento para las imágenes
+        cb(null, './public/images/ProductosNuevos');
+    },
+    filename: (req, file, cb) => {
+        // Generar un UUID y agregar la extensión del archivo original
+        const uniqueName = `${uuidv4()}${getExtension(file.originalname)}`;
+        cb(null, uniqueName);
+    }
+});
+
+// Crear middleware de `multer` para manejar la carga de imágenes
+const upload = multer({ storage: storage });
+
+// Función para obtener la extensión del archivo
+function getExtension(filename) {
+    return filename.substring(filename.lastIndexOf('.'));
+}
+
+// Ruta para guardar un producto con imagen
+router.post('/save', upload.single('imagen'), async (req, res) => {
+    const { id, name, price, stock, category, imagen } = req.body;
+
+    // Verificar si se recibió un archivo de imagen
+    const imagePath = req.file ? `/public/images/ProductosNuevos/${req.file.filename}` : null;
+
+    console.log("Ruta de la imagen:", imagePath);
 
     try {
         if (!name || !price || !stock || !category) {
             throw new Error('Todos los campos requeridos deben estar llenos.');
         }
 
+        if (!imagePath) {
+            throw new Error('La imagen es obligatoria.');
+        }
+
         if (id) {
             // Actualizar producto existente
             await sql`
                 UPDATE products
-                SET name = ${name}, price = ${price}, stock = ${stock}, category = ${category}
+                SET name = ${name}, price = ${price}, stock = ${stock}, category = ${category}, image_url = ${imagePath}
                 WHERE id = ${id}
             `;
         } else {
             // Crear nuevo producto
             await sql`
-                INSERT INTO products (name, price, stock, category, active)
-                VALUES (${name}, ${price}, ${stock}, ${category}, true)
+                INSERT INTO products (name, price, stock, category, active, image_url)
+                VALUES (${name}, ${price}, ${stock}, ${category}, true, ${imagePath})
             `;
         }
 
@@ -94,5 +126,6 @@ async function getProducts() {
         throw error;
     }
 }
+
 
 module.exports = router;
