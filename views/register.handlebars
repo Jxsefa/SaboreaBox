@@ -57,7 +57,7 @@
 
             if (response.ok) {
                 alertContainer.innerHTML = `<div class="alert alert-success">${result.message}</div>`;
-                setTimeout(() => window.location.href = '/user', 1500); // Redirige al perfil
+                setTimeout(() => window.location.href = '/login', 1500); // Redirige al perfil
             } else {
                 alertContainer.innerHTML = `<div class="alert alert-danger">${result.message}</div>`;
             }

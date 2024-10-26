@@ -50,16 +50,14 @@ router.post('/register', async (req, res) => {
 });
 
 // Login de usuario
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
+
 
 router.post('/login', async (req, res) => {
     const { email, password } = req.body;
 
     try {
         // Verificar si el usuario existe en la tabla 'auth'
-        const userAuth = await sql`SELECT * FROM auth WHERE email = ${email}`;
+        const userAuth = await getAuth(email);
 
         if (userAuth.length === 0) {
             console.log('Correo no encontrado en la tabla auth.');
@@ -80,7 +78,7 @@ router.post('/login', async (req, res) => {
         res.cookie('token', token, { httpOnly: true, secure: false });
 
         // Pausa breve para permitir que la base de datos procese la inserción
-        await sleep(500);
+
 
         // Obtener el rol del usuario usando el email en la tabla 'users'
         const user = await sql`SELECT * FROM users WHERE email = ${email}`;
@@ -93,9 +91,11 @@ router.post('/login', async (req, res) => {
 
         // Enviar una respuesta JSON con la ruta de redirección
         if (user[0].role === 'admin') {
-            return res.json({ redirectTo: '/admin' });
+            return res.redirect('/admin'); // Redirige al panel de admin
         } else {
-            return res.json({ redirectTo: '/user' });
+            console.log(user)
+            const redirectTo = `/user?userId=${user[0].id}`;
+            return res.json({ redirectTo }); // Redirige al perfil de usuario
         }
     } catch (error) {
         console.error('Error en el inicio de sesión:', error);
@@ -103,5 +103,15 @@ router.post('/login', async (req, res) => {
     }
 });
 
+async function getAuth(email) {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const result = await sql`SELECT * FROM auth WHERE email = ${email}`;
+            resolve(result);
+        } catch (error) {
+            reject(error);
+        }
+    });
+}
 
 module.exports = router;

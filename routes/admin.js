@@ -6,7 +6,7 @@ const { neon } = require('@neondatabase/serverless');
 const sql = neon(process.env.DATABASE_URL);
 
 // Ruta del Dashboard de Administración (GET /admin)
-router.get('/', async (req, res) => {
+router.get('/admin', async (req, res) => {
     try {
         const totalVentasResult = await sql`
             SELECT SUM(total_amount) AS total
@@ -31,7 +31,7 @@ router.get('/', async (req, res) => {
         const usuariosActivos = usuariosActivosResult[0]?.total || 0;
 
         // Renderizar la vista de administración con los datos del dashboard
-        res.render('admin', {
+        return res.render('admin', {
             title: 'Administración',
             totalVentas,
             productosVendidos,
