@@ -8,3 +8,7 @@ yarn-error.log*
 /public/uploads
 node_modules/
 .idea
+public/images/ProductosNuevos/*
+
+# No ignorar la carpeta en sí
+!public/images/ProductosNuevos/.gitkeep
