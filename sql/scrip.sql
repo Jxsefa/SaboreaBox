@@ -73,10 +73,10 @@ VALUES
 
 INSERT INTO products (name, price, stock, category, description, content, image_url)
 VALUES
-    ('Tiramisu Box', 10000, 50, 'Postre', 'Caja con ingredientes para hacer Tiramisu', 'Incluye queso mascarpone, café, etc.', 'https://miurl.com/tiramisu.jpg'),
-    ('Machas Box', 15000, 30, 'Entrada', 'Caja con ingredientes para hacer Machas a la Parmesana', 'Incluye machas, queso parmesano, etc.', 'https://miurl.com/machas.jpg'),
-    ('Porotos Box', 8000, 50, 'Principal', 'Caja con ingredientes para hacer Porotos', 'Incluye porotos, zapallo, etc.', 'https://miurl.com/porotos.jpg'),
-    ('Fideos Box', 6000, 80, 'Principal', 'Caja con ingredientes para hacer Fideos', 'Incluye fideos, salsa de tomate, etc.', 'https://miurl.com/fideos.jpg');
+    ('Tiramisu Box', 10000, 50, 'Postre', 'Caja con ingredientes para hacer Tiramisu', 'Incluye queso mascarpone, café, etc.', '/public/images/Postre/tiramisu1.jpg'),
+    ('Machas Box', 15000, 30, 'Entrada', 'Caja con ingredientes para hacer Machas a la Parmesana', 'Incluye machas, queso parmesano, etc.', '/public/images/Entreadas/Machas-a-la-Parmesana.jpg'),
+    ('Porotos Box', 8000, 50, 'Principal', 'Caja con ingredientes para hacer Porotos', 'Incluye porotos, zapallo, etc.', '/public/images/Principal/Porotos.jpg'),
+    ('Fideos Box', 6000, 80, 'Principal', 'Caja con ingredientes para hacer Fideos', 'Incluye fideos, salsa de tomate, etc.', '/public/images/Principal/Fideos.jpg');
 
 INSERT INTO carts (user_id, product_id, quantity)
 VALUES

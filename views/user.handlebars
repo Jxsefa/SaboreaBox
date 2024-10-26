@@ -45,21 +45,31 @@
                         <table class="table table-bordered">
                             <thead>
                             <tr>
-                                <th>Fecha</th>
+                                <th>Id de compra</th>
                                 <th>Productos</th>
-                                <th>Monto</th>
-                                <th>Total Gastado</th>
+                                <th>Valor producto</th>
+                                <th>Cantidad</th>
+                                <th>Total</th>
+                                <th>Fecha compra</th>
                             </tr>
                             </thead>
                             <tbody>
-                            {{#each orderHistory}}
+                            {{#if order_detail.length}}
+                            {{#each order_detail}}
                                 <tr>
-                                    <td>{{created_at}}</td>
-                                    <td>{{product_name}}</td>
-                                    <td>${{total}}</td>
-                                    <td>${{cumulative_total}}</td>
+                                    <td>{{this.order_id}}</td>
+                                    <td>{{this.product_name}}</td>
+                                    <td>${{this.price}}</td>
+                                    <td>{{this.quantity}}</td>
+                                    <td>${{this.total}}</td>
+                                    <td>{{this.order_date}}</td>
                                 </tr>
                             {{/each}}
+                            {{else}}
+                                <tr>
+                                    <td colspan="5" class="text-center">No has realizado ninguna compra</td>
+                                </tr>
+                            {{/if}}
                             </tbody>
                         </table>
                     </div>
