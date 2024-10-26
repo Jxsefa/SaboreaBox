@@ -33,8 +33,8 @@ router.post('/register', async (req, res) => {
             VALUES (${email}, ${hashedPassword}, NOW())
         `;
         await sql`
-            INSERT INTO users (username, email, role, created_at)
-            VALUES (${username}, ${email}, 'customer', NOW())
+            INSERT INTO users (username, email, role, created_at, balance)
+            VALUES (${username}, ${email}, 'customer', NOW(), 15000)
         `;
 
         // Crear el token JWT con el email del usuario
@@ -71,12 +71,6 @@ router.post('/login', async (req, res) => {
             return res.status(401).json({ message: 'Credenciales inválidas.' });
         }
 
-        // Crear el token JWT con el email del usuario
-        const token = jwt.sign({ email }, JWT_SECRET, { expiresIn: '1h' });
-
-        // Enviar el token como cookie
-        res.cookie('token', token, { httpOnly: true, secure: false });
-
         // Pausa breve para permitir que la base de datos procese la inserción
 
 
@@ -86,15 +80,22 @@ router.post('/login', async (req, res) => {
             console.log('Usuario no encontrado en la tabla users.');
             return res.status(401).json({ message: 'Usuario no encontrado.' });
         }
+        // Crear el token JWT con el email del usuario
+        const token = jwt.sign({ userId: user[0].id, email }, JWT_SECRET, { expiresIn: '1h' });
 
+        console.log(token);
+
+        // Enviar el token como cookie
+        res.cookie('token', token, { httpOnly: true, secure: false });
         console.log(`Usuario autenticado con rol: ${user[0].role}`);
 
         // Enviar una respuesta JSON con la ruta de redirección
         if (user[0].role === 'admin') {
-            return res.redirect('/admin'); // Redirige al panel de admin
+            const redirectTo = '/admin';
+            return res.json({ redirectTo });// Redirige al panel de admin
         } else {
             console.log(user)
-            const redirectTo = `/user?userId=${user[0].id}`;
+            const redirectTo = '/user';
             return res.json({ redirectTo }); // Redirige al perfil de usuario
         }
     } catch (error) {
