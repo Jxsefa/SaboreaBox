@@ -82,7 +82,7 @@
                     <tbody>
                     {{#each products}}
                         <tr>
-          A                  <td>{{this.name}}</td>
+                            <td>{{this.name}}</td>
                             <td>${{this.price}}</td>
                             <td>
                                 <div class="btn-group">
@@ -153,6 +153,7 @@
                         const messageDiv = document.getElementById('message');
                         if (response.ok) {
                             messageDiv.innerHTML = `<div class="alert alert-success">Producto guardado exitosamente.</div>`;
+                            window.location.href = '/admin';
                         } else {
                             const errorText = await response.text();
                             messageDiv.innerHTML = `<div class="alert alert-danger">Error: ${errorText}</div>`;

@@ -4,6 +4,7 @@ const { neon } = require('@neondatabase/serverless');
 const cookieParser = require('cookie-parser');
 const { engine } = require('express-handlebars');
 const authRoutes = require('./routes/auth'); // Importar rutas de autenticación
+const adminRoutes = require('./routes/admin'); // Rutas de administración
 
 const app = express();
 const PORT = 2000;
@@ -33,10 +34,21 @@ app.engine('handlebars', engine({
 app.set('view engine', 'handlebars');
 app.set('views', __dirname + '/views');
 
+app.engine('handlebars', engine({
+    helpers: {
+        eq: function(a, b) {
+            return a === b;
+        },
+        // Otros helpers que tengas...
+    }
+}));
+app.set('view engine', 'handlebars');
+
 // Middleware para servir archivos estáticos
 app.use(express.static('./'));
 // Usar rutas de autenticación
 app.use('/', authRoutes);
+app.use('/admin', adminRoutes); // Rutas de administración
 
 // Inicializar un carrito en memoria (solo para simplificación temporal)
 let cart = [];
@@ -111,7 +123,6 @@ app.delete('/cart/delete', (req, res) => {
 
 // Rutas adicionales (se mantienen sin cambios)
 app.get('/', (req, res) => res.render('home', { title: 'Inicio' }));
-app.get('/admin', (req, res) => res.render('admin', { title: 'Administración' }));
 app.get('/login', (req, res) => res.render('login', { title: 'Inicio sesión' }));
 app.get('/register', (req, res) => res.render('register', { title: 'Registro' }));
 app.get('/user', (req, res) => res.render('user', { title: 'Usuario' }));

@@ -31,11 +31,17 @@ router.get('/', async (req, res) => {
         const usuariosActivos = usuariosActivosResult[0]?.total || 0;
 
         // Renderizar la vista de administración con los datos del dashboard
+
+        console.log("datos: ", totalVentas, productosVendidos, usuariosActivos);
+
+        let products = await getProducts();
+
         res.render('admin', {
             title: 'Administración',
             totalVentas,
             productosVendidos,
             usuariosActivos,
+            products
         });
     } catch (error) {
         console.error('Error al obtener datos del Dashboard:', error);
@@ -73,5 +79,26 @@ router.post('/save', async (req, res) => {
         res.status(500).send(`Error en el servidor: ${error.message}`);
     }
 });
+
+function getProducts () {
+    return new Promise(async (resolve, reject) => {
+        const products = await sql`SELECT id,
+                                          name,
+                                          price,
+                                          stock,
+                                          category,
+                                          description,
+                                          content,
+                                          image_url
+                                   FROM products
+                                   WHERE active = true`;
+
+        return  resolve (products);
+
+    })
+
+}
+
+
 
 module.exports = router;
