@@ -6,6 +6,7 @@ const { engine } = require('express-handlebars');
 const authRoutes = require('./routes/auth'); // Importar rutas de autenticación
 const adminRoutes = require('./routes/admin'); // Rutas de administración
 const walletRoutes = require('./routes/wallet');
+const productRoutes = require('./routes/product');
 const app = express();
 const PORT = 2000;
 
@@ -50,23 +51,12 @@ app.use(express.static('./'));
 app.use('/', authRoutes);
 app.use('/admin', adminRoutes); // Rutas de administración
 app.use('/user', walletRoutes);
-
+app.use('/products', productRoutes);
 // Inicializar un carrito en memoria (solo para simplificación temporal)
 let cart = [];
 
 // Ruta para obtener y mostrar los productos en la vista 'products'
-app.get('/products', async (req, res) => {
-    try {
-        // Obtener todos los productos activos
-        const products = await sql`SELECT id, name, price, stock, category, description, content, image_url FROM products WHERE active = true`;
 
-        // Renderizar la vista 'products' pasando los productos
-        res.render('products', { title: 'Catálogo de Productos', products });
-    } catch (error) {
-        console.error('Error al obtener productos:', error);
-        res.status(500).send('Error en el servidor.');
-    }
-});
 
 // Ruta para mostrar el carrito de compras
 app.get('/cart', async (req, res) => {

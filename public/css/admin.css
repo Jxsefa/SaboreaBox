@@ -16,7 +16,6 @@ body {
     font-style: normal;
 }
 
-
 /* Títulos Generales */
 h1 {
     color: #f5aa27; /* Color anaranjado para los títulos h1 */
@@ -263,6 +262,11 @@ input, textarea, select {
         width: 100%; /* Botones ocupan todo el ancho en pantallas pequeñas */
         margin-bottom: 10px; /* Espacio inferior para los botones en pantallas pequeñas */
     }
+}
+
+/*estilos de preview de imagen*/
+#imagePreview{
+    display: none;
 }
 /* FIN AGREGAR PRODUCTO */
 

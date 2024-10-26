@@ -74,11 +74,26 @@ function getExtension(filename) {
 
 // Ruta para guardar un producto con imagen
 router.post('/save', upload.single('imagen'), async (req, res) => {
-    const { id, name, price, stock, category, imagen } = req.body;
+    const { id, name, price, stock, category, description, content, urlImg } = req.body;
 
-    // Verificar si se recibió un archivo de imagen
-    const imagePath = req.file ? `/public/images/ProductosNuevos/${req.file.filename}` : null;
+    console.log("Datos del formulario:", req.body);
 
+
+    console.log(urlImg)
+    console.log(id)
+    console.log(description, "  ", content)
+    let imagePath = urlImg;
+    let file = null;
+    try {
+        file = req.file.filename;
+    }catch (Error){
+        console.log("not have file")
+    }
+
+    if (file) {
+        imagePath = req.file ? `/public/images/ProductosNuevos/${req.file.filename}` : null;
+        console.log("update imagen")
+    }
     console.log("Ruta de la imagen:", imagePath);
 
     try {
@@ -86,9 +101,6 @@ router.post('/save', upload.single('imagen'), async (req, res) => {
             throw new Error('Todos los campos requeridos deben estar llenos.');
         }
 
-        if (!imagePath) {
-            throw new Error('La imagen es obligatoria.');
-        }
 
         if (id) {
             // Actualizar producto existente
@@ -97,15 +109,24 @@ router.post('/save', upload.single('imagen'), async (req, res) => {
                 SET name = ${name}, price = ${price}, stock = ${stock}, category = ${category}, image_url = ${imagePath}
                 WHERE id = ${id}
             `;
+            console.log("producto id update ", id)
+            res.status(200).send('Producto actulizado exitosamente');
+        } else if(!file){
+            res.status(400).send('Ingresa una imagen');
         } else {
+            if (!imagePath) {
+                throw new Error('La imagen es obligatoria.');
+            }
             // Crear nuevo producto
             await sql`
                 INSERT INTO products (name, price, stock, category, active, image_url)
                 VALUES (${name}, ${price}, ${stock}, ${category}, true, ${imagePath})
             `;
+            console.log("product create")
+            res.status(200).send('Producto guardado exitosamente');
+
         }
 
-        res.status(200).send('Producto guardado exitosamente');
     } catch (error) {
         console.error('Error al guardar el producto:', error);
         res.status(500).send(`Error en el servidor: ${error.message}`);
