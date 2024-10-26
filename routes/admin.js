@@ -6,7 +6,7 @@ const { neon } = require('@neondatabase/serverless');
 const sql = neon(process.env.DATABASE_URL);
 
 // Ruta del Dashboard de Administración (GET /admin)
-router.get('/admin', async (req, res) => {
+router.get('/', async (req, res) => {
     try {
         const totalVentasResult = await sql`
             SELECT SUM(total_amount) AS total
@@ -30,14 +30,13 @@ router.get('/admin', async (req, res) => {
         `;
         const usuariosActivos = usuariosActivosResult[0]?.total || 0;
 
-        // Renderizar la vista de administración con los datos del dashboard
+        // Obtener productos utilizando la función getProducts
+        const products = await getProducts();
 
         console.log("datos: ", totalVentas, productosVendidos, usuariosActivos);
 
-        let products = await getProducts();
-
+        // Renderizar la vista de administración con los datos del dashboard
         res.render('admin', {
-        return res.render('admin', {
             title: 'Administración',
             totalVentas,
             productosVendidos,
@@ -81,25 +80,19 @@ router.post('/save', async (req, res) => {
     }
 });
 
-function getProducts () {
-    return new Promise(async (resolve, reject) => {
-        const products = await sql`SELECT id,
-                                          name,
-                                          price,
-                                          stock,
-                                          category,
-                                          description,
-                                          content,
-                                          image_url
-                                   FROM products
-                                   WHERE active = true`;
-
-        return  resolve (products);
-
-    })
-
+// Función para obtener productos
+async function getProducts() {
+    try {
+        const products = await sql`
+            SELECT id, name, price, stock, category, description, content, image_url
+            FROM products
+            WHERE active = true
+        `;
+        return products;
+    } catch (error) {
+        console.error('Error al obtener productos:', error);
+        throw error;
+    }
 }
-
-
 
 module.exports = router;
