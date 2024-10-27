@@ -34,7 +34,7 @@ router.post('/register', async (req, res) => {
         `;
         await sql`
             INSERT INTO users (username, email, role, created_at, balance)
-            VALUES (${username}, ${email}, 'customer', NOW(), 15000)
+            VALUES (${username}, ${email}, 'customer', NOW(), 30000)
         `;
 
         // Crear el token JWT con el email del usuario
