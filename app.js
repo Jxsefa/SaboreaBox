@@ -27,16 +27,6 @@ app.set('views', __dirname + '/views');
 
 app.engine('handlebars', engine({
     helpers: {
-        eq: function(a, b) {
-            return a === b;
-        },
-        // Otros helpers que tengas...
-    }
-}));
-app.set('view engine', 'handlebars');
-
-app.engine('handlebars', engine({
-    helpers: {
         calculateSubtotal: function(cart) {
             return cart.reduce((subtotal, item) => subtotal + item.price * item.quantity, 0);
         },
@@ -44,7 +34,10 @@ app.engine('handlebars', engine({
             const subtotal = cart.reduce((total, item) => total + item.price * item.quantity, 0);
             const shippingCost = 2000; // Costo fijo de envío
             return subtotal + shippingCost;
-        }
+        },
+        eq: function(a, b) {
+            return a === b;
+        },
     }
 }));
 
