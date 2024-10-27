@@ -35,7 +35,7 @@
                                     <p class="card-text">Precio: ${{this.price}}</p>
                                     <div class="d-flex justify-content-between">
                                         <input type="number" class="form-control" value="{{this.quantity}}" min="1" style="width: 80px;">
-                                        <button class="btn btn-danger remove-from-cart" data-product-id="{{this.id}}">Eliminar</button>
+                                        <button class="btn btn-danger remove-from-cart" data-product-id="{{this.product_id}}">Eliminar</button>
                                     </div>
                                 </div>
                             </div>
@@ -60,33 +60,39 @@
         </div>
     </div>
 </div>
-
 <script>
-    // Función para eliminar productos del carrito
-    document.querySelectorAll('.remove-from-cart').forEach(button => {
-        button.addEventListener('click', async () => {
-            const productId = button.getAttribute('data-product-id');
-            try {
-                const response = await fetch('/cart/delete', {
-                    method: 'DELETE',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ productId })
-                });
+    document.addEventListener('DOMContentLoaded', () => {
+        const removeButtons = document.querySelectorAll('.remove-from-cart');
 
-                if (response.ok) {
-                    window.location.reload(); // Recargar la página después de eliminar
-                } else {
-                    const error = await response.json();
-                    alert(error.message);
+        removeButtons.forEach(button => {
+            button.addEventListener('click', async () => {
+                const productId = button.getAttribute('data-product-id');
+                console.log("producto id ", productId)
+                try {
+                    const response = await fetch('/cart', {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ productId })
+                    });
+
+                    const data = await response.json();
+
+                    if (data.success) {
+                        alert('Producto eliminado del carrito.');
+                        // Actualiza la página o el carrito dinámicamente
+                        location.reload();
+                    } else {
+                        alert(data.message);
+                    }
+                } catch (error) {
+                    console.error('Error al eliminar producto del carrito:', error);
                 }
-            } catch (error) {
-                console.error('Error al eliminar del carrito:', error);
-                alert('Error al eliminar del carrito.');
-            }
+            });
         });
     });
+
 </script>
 </body>
 </html>
