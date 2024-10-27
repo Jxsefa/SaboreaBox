@@ -36,8 +36,6 @@ router.get('/', async (req, res) => {
         // Obtener productos utilizando la función getProducts
         const products = await getProducts();
 
-        console.log("datos: ", totalVentas, productosVendidos, usuariosActivos);
-
         // Renderizar la vista de administración con los datos del dashboard
         res.render('admin', {
             title: 'Administración',

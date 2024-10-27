@@ -56,7 +56,6 @@ app.use('/products', productRoutes);
 
 // Rutas adicionales (se mantienen sin cambios)
 app.get('/', (req, res) => res.render('home', { title: 'Inicio' }));
-app.get('/admin', (req, res) => res.render('admin', { title: 'Administración' }));
 app.get('/login', (req, res) => res.render('login', { title: 'Inicio sesión' }));
 app.get('/register', (req, res) => res.render('register', { title: 'Registro' }));
 // Inicia el servidor en el puerto definido

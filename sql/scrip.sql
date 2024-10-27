@@ -64,6 +64,8 @@ CREATE TABLE order_details (
                                price INTEGER NOT NULL  -- Precio del producto en el momento de la compra
 ); --Ordenes detalladas
 
+CREATE UNIQUE INDEX user_product_unique ON carts(user_id, product_id);
+
 INSERT INTO users (username, role)
 VALUES
     ('admin_user', 'admin'),
