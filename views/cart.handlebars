@@ -54,7 +54,7 @@
                     <p class="card-text">Subtotal: ${{calculateSubtotal cart}}</p>
                     <p class="card-text">Envío: $2.000</p>
                     <p class="card-text"><strong>Total: ${{calculateTotal cart}}</strong></p>
-                    <button class="btn btn-success w-100">Proceder al Pago</button>
+                    <button id="pago" class="btn btn-success w-100">Proceder al Pago</button>
                 </div>
             </div>
         </div>
@@ -92,7 +92,25 @@
             });
         });
     });
+    document.getElementById('pago').addEventListener('click', async function () {
+        console.log("se realiza consulta")
+        try {
+            const response = await fetch('/payment', {
+                method: 'POST',
+            });
+            const messageDiv = document.getElementById('message');
+            if (response.ok) {
+                alert("Compra realizada con exito");
+                window.location.href = '/user';
+            } else {
+                const errorData = await response.json();
+                alert(errorData.message);
 
+            }
+        } catch (error) {
+            alert(error.message);
+        }
+    })
 </script>
 </body>
 </html>

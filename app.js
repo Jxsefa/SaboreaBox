@@ -8,6 +8,7 @@ const adminRoutes = require('./routes/admin'); // Rutas de administración
 const walletRoutes = require('./routes/wallet');
 const productRoutes = require('./routes/product');
 const cartRoutes = require('./routes/cart');
+const paymentRoutes = require('./routes/payment');
 const setNavbarAuth = require('./middleware/verifyTokenNav');
 const app = express();
 const PORT = 2000;
@@ -47,7 +48,7 @@ app.use('/user', walletRoutes);
 app.use('/cart', cartRoutes)
 app.use('/products', productRoutes);
 app.use('/auth', authRoutes);
-
+app.use('/payment',paymentRoutes)
 
 
 app.get('/', (req, res) => res.render('home', { title: 'Inicio' }));
