@@ -1,24 +1,25 @@
 const express = require('express');
 const router = express.Router();
-const { neon } = require('@neondatabase/serverless');
+const {neon} = require('@neondatabase/serverless');
 const sql = neon(process.env.DATABASE_URL);
 require('dotenv').config();
+const verifyToken = require('../middleware/verifyToken');
 
 // Ruta para mostrar el carrito de compras
-router.get('/', async (req, res) => {
+router.get('/', verifyToken, async (req, res) => {
     const userId = req.userId; // ID del usuario autenticado
 
     try {
         // Obtener los productos en el carrito del usuario desde la base de datos
         const cartItems = await sql`
-            SELECT c.product_id, p.name, p.price, c.quantity
+            SELECT c.product_id, p.name, p.price, c.quantity, p.image_url
             FROM carts c
             JOIN products p ON c.product_id = p.id
             WHERE c.user_id = ${userId}
         `;
 
         // Renderizar la vista del carrito con el contenido del usuario autenticado
-        res.render('cart', { title: 'Carrito de Compras', cart: cartItems });
+        res.render('cart', {cart: cartItems});
     } catch (error) {
         console.error('Error al obtener el carrito:', error);
         res.status(500).send('Error en el servidor.');
@@ -26,33 +27,34 @@ router.get('/', async (req, res) => {
 
 });
 
-router.post('/', async (req, res) => {
-    const { productId } = req.body; // Obtener el ID del producto del cuerpo de la solicitud
-    const userId = req.userId; // ID del usuario autenticado
+// Ruta para agregar producto al carrito
+router.post('/', verifyToken, async (req, res) => {
+    const {productId, quantity} = req.body;
+    const userId = req.userId;
+    console.log("id", userId);
+    // Verifica si el usuario está autenticado (opcional)
+    if (!userId) {
+        return res.status(401).json({
+            success: false,
+            message: 'Debes iniciar sesión para agregar productos al carrito.'
+        });
+    }
 
     try {
-        // Verificar si el producto ya está en el carrito del usuario
-        const existingCartItem = await sql`
-            SELECT * FROM carts WHERE user_id = ${userId} AND product_id = ${productId}
+        console.log("aers ", userId, productId, quantity);
+        await sql`
+            INSERT INTO carts (user_id, product_id, quantity)
+            VALUES (${userId}, ${productId}, ${quantity}) ON CONFLICT (user_id, product_id)
+            DO
+            UPDATE SET quantity = carts.quantity + ${quantity}
         `;
 
-        if (existingCartItem.length > 0) {
-            // Si el producto ya está en el carrito, incrementar la cantidad
-            await sql`
-                UPDATE carts SET quantity = quantity + 1 WHERE user_id = ${userId} AND product_id = ${productId}
-            `;
-        } else {
-            // Si el producto no está en el carrito, agregarlo
-            await sql`
-                INSERT INTO carts (user_id, product_id, quantity) VALUES (${userId}, ${productId}, 1)
-            `;
-        }
-
-        res.json({ message: 'Producto añadido al carrito.' });
+        res.json({success: true, message: 'Producto agregado al carrito.'});
     } catch (error) {
         console.error('Error al agregar producto al carrito:', error);
-        res.status(500).json({ message: 'Error en el servidor.' });
+        res.status(500).json({success: false, message: 'Error al agregar producto al carrito.'});
     }
 });
+
 
 module.exports = router;

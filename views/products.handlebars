@@ -43,29 +43,35 @@
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <script>
-    // Función para añadir productos al carrito
-    document.querySelectorAll('.add-to-cart').forEach(button => {
-        button.addEventListener('click', async () => {
-            const productId = button.getAttribute('data-product-id');
-            try {
-                const response = await fetch('/cart/add', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ productId })
-                });
+    document.addEventListener('DOMContentLoaded', function() {
+        const addToCartButtons = document.querySelectorAll('.add-to-cart');
 
-                if (response.ok) {
-                    alert('Producto añadido al carrito.');
-                } else {
-                    const error = await response.json();
-                    alert(error.message);
+        addToCartButtons.forEach(button => {
+            button.addEventListener('click', async function() {
+                const productId = this.getAttribute('data-product-id');
+
+                // Enviar una solicitud POST al servidor para agregar el producto al carrito
+                try {
+                    const response = await fetch('/cart', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ productId, quantity: 1 })
+                    });
+
+                    const result = await response.json();
+                    console.log("resut", result)
+                    if (result.success) {
+                        alert('Producto agregado al carrito exitosamente.');
+
+                    } else {
+                        alert('No se pudo agregar el producto al carrito.');
+                    }
+                } catch (error) {
+                    console.error('Error al agregar producto al carrito:', error);
                 }
-            } catch (error) {
-                console.error('Error al añadir al carrito:', error);
-                alert('Error al añadir al carrito.');
-            }
+            });
         });
     });
 </script>

@@ -55,6 +55,7 @@ app.get('/admin', (req, res) => res.render('admin', { title: 'Administración' }
 app.get('/login', (req, res) => res.render('login', { title: 'Inicio sesión' }));
 app.get('/register', (req, res) => res.render('register', { title: 'Registro' }));
 app.get('/cart', (req, res) => res.render('cart', { title: 'Carrito de Compras' }));
+// Inicia el servidor en el puerto definido
 app.listen(PORT, () => {
     console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
