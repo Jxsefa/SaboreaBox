@@ -9,6 +9,7 @@ yarn-error.log*
 node_modules/
 .idea
 public/images/ProductosNuevos/*
+!public/images/ProductosNuevos/a
 
 # No ignorar la carpeta en sí
 !public/images/ProductosNuevos/.gitkeep
