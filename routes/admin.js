@@ -106,7 +106,8 @@ router.post('/save', upload.single('imagen'), async (req, res) => {
             // Actualizar producto existente
             await sql`
                 UPDATE products
-                SET name = ${name}, price = ${price}, stock = ${stock}, category = ${category}, image_url = ${imagePath}
+                SET name = ${name}, price = ${price}, stock = ${stock}, category = ${category}, image_url = ${imagePath},
+                    description = ${description}, content = ${content}
                 WHERE id = ${id}
             `;
             console.log("producto id update ", id)
@@ -119,8 +120,8 @@ router.post('/save', upload.single('imagen'), async (req, res) => {
             }
             // Crear nuevo producto
             await sql`
-                INSERT INTO products (name, price, stock, category, active, image_url)
-                VALUES (${name}, ${price}, ${stock}, ${category}, true, ${imagePath})
+                INSERT INTO products (name, price, stock, category, active, image_url, description, content)
+                VALUES (${name}, ${price}, ${stock}, ${category}, true, ${imagePath}, ${description}, ${content})
             `;
             console.log("product create")
             res.status(200).send('Producto guardado exitosamente');

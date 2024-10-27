@@ -248,7 +248,9 @@
                                 document.getElementById('productCategory').value = producto.category || '';
                                 document.getElementById('idProduct').value = producto.id || '';
                                 document.getElementById('IdUrlImage').value = producto.image_url || '';
-                                imageElement.src = producto.image_url
+                                document.getElementById('productDescription').value = producto.description || '';
+                                document.getElementById('productContent').value = producto.content || '';
+                                imageElement.src = producto.image_url;
                                 imageElement.style.display = 'block';
                                 console.log(producto)
 
