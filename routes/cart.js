@@ -18,7 +18,7 @@ router.get('/', async (req, res) => {
         `;
 
         // Renderizar la vista del carrito con el contenido del usuario autenticado
-        res.render('cart', { title: 'Carrito de Compras', cart: cartItems });
+        res.render('cart', { cart: cartItems });
     } catch (error) {
         console.error('Error al obtener el carrito:', error);
         res.status(500).send('Error en el servidor.');
