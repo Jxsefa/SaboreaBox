@@ -81,12 +81,13 @@ router.post('/login', async (req, res) => {
             return res.status(401).json({ message: 'Usuario no encontrado.' });
         }
         // Crear el token JWT con el email del usuario
-        const token = jwt.sign({ userId: user[0].id, email }, JWT_SECRET, { expiresIn: '1h' });
+        const token = jwt.sign({ userId: user[0].id, email, role: user[0].role }, JWT_SECRET, { expiresIn: '1h' });
 
         console.log(token);
 
         // Enviar el token como cookie
         res.cookie('token', token, { httpOnly: true, secure: false });
+        res.cookie('userName', user[0].username, { httpOnly: true, secure: false });
         console.log(`Usuario autenticado con rol: ${user[0].role}`);
 
         // Enviar una respuesta JSON con la ruta de redirección
@@ -114,5 +115,14 @@ async function getAuth(email) {
         }
     });
 }
+
+router.get('/logout', (req, res) => {
+    // Eliminar las cookies de autenticación
+    res.clearCookie('token');
+    res.clearCookie('userName');
+    console.log("cerrando sesión")
+    // Redirigir al usuario a la página de inicio de sesión
+    res.redirect('/');
+});
 
 module.exports = router;
