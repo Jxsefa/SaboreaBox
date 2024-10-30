@@ -53,11 +53,25 @@ const swaggerOptions = {
         },
         servers: [
             {
-                url: 'http://localhost:3000', // Cambia a tu URL base
+                url: 'http://localhost:2000',
+            },
+        ],
+        components: {
+            securitySchemes: {
+                bearerAuth: {
+                    type: 'http',
+                    scheme: 'bearer',
+                    bearerFormat: 'JWT',
+                },
+            },
+        },
+        security: [
+            {
+                bearerAuth: [],
             },
         ],
     },
-    apis: ['./routes/*.js'], // Especifica la ruta de tus archivos de rutas
+    apis: ['./backend/controller/**/*.js'],
 };
 const swaggerDocs = swaggerJsdoc(swaggerOptions);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));

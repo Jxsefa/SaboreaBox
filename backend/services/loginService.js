@@ -13,7 +13,7 @@ async function loginService( email, password, res) {
 
         if (userAuth.length === 0) {
             console.log('Correo no encontrado en la tabla auth.');
-            return {message: 'Credenciales inválidas.'};
+            return {message: 'Credenciales inválidas.', "status": 400};
         }
 
         // Verificar la contraseña hasheada
