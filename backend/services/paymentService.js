@@ -1,32 +1,30 @@
-const express = require('express');
-const router = express.Router();
 const {neon} = require('@neondatabase/serverless');
 const sql = neon(process.env.DATABASE_URL);
-require('dotenv').config();
-const verifyToken = require('../../middleware/verifyToken');
 
-router.post('/', verifyToken, async (req, res) => {
-    const userId = req.userId;
-    let montoTotal = 0;
-    let montoTotalMasComision = 0;
-    console.log("preueba payment")
+async function generatorPayment(userId) {
     try{
+        let montoTotal = 0;
+        let montoTotalMasComision = 0;
+
         const cart = await sql`SELECT c.product_id AS id_producto,
                                   p.price * c.quantity AS total, c.quantity AS cantidad
                            FROM carts  c JOIN products p ON c.product_id = p.id
                            WHERE c.user_id = ${userId}`;
-        console.log("consulta",cart.length)
+
+        if (cart.length === 0) {
+            return { success: false, message: "Carrito vacío" , "status": 400};
+        }
+
         for(let i = 0; i < cart.length; i++){
             montoTotal = montoTotal + cart[i].total;
         }
         montoTotalMasComision = 2000 + montoTotal;
         const [user] = await sql`SELECT u.balance AS saldo FROM users u WHERE u.id = ${userId}`;
         console.log(user.saldo)
-        if (user.saldo < montoTotalMasComision) {
-            console.log("Saldo insuficiente, genera error");
-            return res.status(400).json({ success: false, message: "Saldo insuficiente, genera error"})
-        }
 
+        if (!user || user.saldo < montoTotalMasComision) {
+            return { success: false, message: "Saldo insuficiente", "status": 402 };
+        }
         const newBalance = calcularNuevoBalance(user.saldo, montoTotalMasComision);
         console.log("new balance: ", newBalance)
         await sql`UPDATE users SET balance = ${newBalance} WHERE id = ${userId}`;
@@ -42,31 +40,21 @@ router.post('/', verifyToken, async (req, res) => {
                 VALUES (${orderId.id},${item.id_producto},${item.cantidad},${item.total} )`;
             console.log("item guardado")
         }
-        console.log("fishigim")
-        return res.status(200).json({success: true});
+        return {success: true, message:"pago realizado correctamente", "status": 200};
         // Lógica adicional para realizar la compra...
     } catch (error) {
         console.log("error capturado en el catch:", error.message);
-        return res.status(400).json({ success: false, message: error.message });
+        return {success: false, message: "Error del servidor", "status": 500};
     }
-
-
-
-
-});
+}
 
 function calcularNuevoBalance(balance, montoTotalMasComision) {
-    // Limpiar el balance y el monto para que contengan solo números y puntos decimales
-
-
-    // Convertir a números
 
     const balanceNumerico = Number(balance);
     const montoNumerico = Number(montoTotalMasComision);
 
-
-    // Calcular el nuevo balance
     return balanceNumerico - montoNumerico;
 }
 
-module.exports = router;
+module.exports = {generatorPayment};
+

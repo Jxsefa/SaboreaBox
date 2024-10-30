@@ -7,8 +7,7 @@ function verifyToken(req, res, next) {
     console.log(token)
     console.log("estoy verificando")
     if (!token) {
-        res.clearCookie('token', { httpOnly: true, secure: false });
-        return res.redirect('/login');
+        return res.status(401).json({ success: false, message: 'Usuario no autorizado' });
     }
 
     try {
@@ -17,7 +16,7 @@ function verifyToken(req, res, next) {
         console.log("decode ", decoded);
         let userId = decoded.userId;
         if(!userId) {
-            throw new Error('Usuario no encontrado en la tabla users.');
+            return res.status(404).json({ success: false, message: 'Usuario no encontrado' });
         }
         console.log(userId);
         req.userId = decoded.userId; // Agrega el ID del usuario a la solicitud
@@ -26,7 +25,7 @@ function verifyToken(req, res, next) {
         console.log("token borrado")
         res.clearCookie('token', { httpOnly: true, secure: false });
         console.error('Error al verificar el token:', error);
-        return res.redirect('/login');
+        return res.status(403).json({ success: false, message: 'Usuario no autorizado' });
     }
 }
 
