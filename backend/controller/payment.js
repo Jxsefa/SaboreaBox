@@ -3,7 +3,7 @@ const router = express.Router();
 const {neon} = require('@neondatabase/serverless');
 const sql = neon(process.env.DATABASE_URL);
 require('dotenv').config();
-const verifyToken = require('../middleware/verifyToken');
+const verifyToken = require('../../middleware/verifyToken');
 
 router.post('/', verifyToken, async (req, res) => {
     const userId = req.userId;
@@ -54,7 +54,6 @@ router.post('/', verifyToken, async (req, res) => {
 
 
 });
-
 
 function calcularNuevoBalance(balance, montoTotalMasComision) {
     // Limpiar el balance y el monto para que contengan solo números y puntos decimales

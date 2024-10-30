@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { neon } = require('@neondatabase/serverless');
-const verifyToken = require('../middleware/verifyToken');
+const verifyToken = require('../../middleware/verifyToken');
 
 // Conectar a la base de datos Neon
 const sql = neon(process.env.DATABASE_URL);

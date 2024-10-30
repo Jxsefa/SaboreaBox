@@ -3,7 +3,7 @@ const router = express.Router();
 const {neon} = require('@neondatabase/serverless');
 const sql = neon(process.env.DATABASE_URL);
 require('dotenv').config();
-const verifyToken = require('../middleware/verifyToken');
+const verifyToken = require('../../middleware/verifyToken');
 
 // Ruta para mostrar el carrito de compras
 router.get('/', verifyToken, async (req, res) => {
