@@ -3,6 +3,8 @@ const express = require('express');
 const { neon } = require('@neondatabase/serverless');
 const cookieParser = require('cookie-parser');
 const { engine } = require('express-handlebars');
+const swaggerJsdoc = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express');
 const authRoutes = require('./backend/controller/auth'); // Importar rutas de autenticación
 const adminRoutes = require('./backend/controller/admin'); // Rutas de administración
 const walletRoutes = require('./backend/controller/wallet');
@@ -12,6 +14,7 @@ const paymentRoutes = require('./backend/controller/paymentController');
 const setNavbarAuth = require('./middleware/verifyTokenNav');
 const app = express();
 const PORT = 2000;
+
 
 const sql = neon(process.env.DATABASE_URL);
 console.log('DATABASE_URL:', process.env.DATABASE_URL);
@@ -40,6 +43,26 @@ app.engine('handlebars', engine({
     }
 }));
 
+const swaggerOptions = {
+    definition: {
+        openapi: '3.0.0',
+        info: {
+            title: 'API de SaboreaBox',
+            version: '1.0.0',
+            description: 'Documentación de la API de SaboreaBox',
+        },
+        servers: [
+            {
+                url: 'http://localhost:3000', // Cambia a tu URL base
+            },
+        ],
+    },
+    apis: ['./routes/*.js'], // Especifica la ruta de tus archivos de rutas
+};
+const swaggerDocs = swaggerJsdoc(swaggerOptions);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+
+
 app.use(express.static('./'));
 
 app.use('/', authRoutes);
@@ -57,6 +80,8 @@ app.get('/login', (req, res) => res.render('login', { title: 'Inicio sesión' })
 app.get('/register', (req, res) => res.render('register', { title: 'Registro' }));
 app.get('/cart', (req, res) => res.render('cart', { title: 'Carrito de Compras' }));
 // Inicia el servidor en el puerto definido
+
 app.listen(PORT, () => {
     console.log(`Servidor corriendo en http://localhost:${PORT}`);
+    console.log(`Documentación en http://localhost:${PORT}/api-docs`);
 });

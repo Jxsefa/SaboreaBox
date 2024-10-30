@@ -24,6 +24,8 @@
     "multer-s3": "^3.0.1",
     "pg": "^8.13.1",
     "streamifier": "^0.1.1",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1",
     "uuid": "^10.0.0"
   }
 }
