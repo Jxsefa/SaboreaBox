@@ -2,8 +2,6 @@ const express = require('express');
 const router = express.Router();
 const { neon } = require('@neondatabase/serverless');
 
-
-
 // Conectar a la base de datos Neon
 const sql = neon(process.env.DATABASE_URL);
 
@@ -48,8 +46,6 @@ router.get('/', async (req, res) => {
         res.status(500).send(`Error en el servidor: ${error.message}`);
     }
 });
-
-
 
 // Ruta para guardar un producto con imagen
 
