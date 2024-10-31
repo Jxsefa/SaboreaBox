@@ -4,10 +4,10 @@ const { neon } = require('@neondatabase/serverless');
 const cookieParser = require('cookie-parser');
 const { engine } = require('express-handlebars');
 const authRoutes = require('./backend/controller/auth'); // Importar rutas de autenticación
-const adminRoutes = require('./backend/controller/admin'); // Rutas de administración
-const walletRoutes = require('./backend/controller/wallet');
+const adminRoutes = require('./backend/controller/adminController'); // Rutas de administración
+const walletRoutes = require('./backend/controller/walletController');
 const productRoutes = require('./backend/controller/productController');
-const cartRoutes = require('./backend/controller/cart');
+const cartRoutes = require('./backend/controller/cartController');
 const paymentRoutes = require('./backend/controller/payment');
 const setNavbarAuth = require('./middleware/verifyTokenNav');
 const app = express();
@@ -52,10 +52,10 @@ app.use('/payment',paymentRoutes)
 
 
 app.get('/', (req, res) => res.render('home', { title: 'Inicio' }));
-app.get('/admin', (req, res) => res.render('admin', { title: 'Administración' }));
+app.get('/admin', (req, res) => res.render('admin', { title: 'Administración' })); //modificar
 app.get('/login', (req, res) => res.render('login', { title: 'Inicio sesión' }));
 app.get('/register', (req, res) => res.render('register', { title: 'Registro' }));
-app.get('/cart', (req, res) => res.render('cart', { title: 'Carrito de Compras' }));
+app.get('/cart', (req, res) => res.render('cart', { title: 'Carrito de Compras' })); //modificar
 // Inicia el servidor en el puerto definido
 app.listen(PORT, () => {
     console.log(`Servidor corriendo en http://localhost:${PORT}`);

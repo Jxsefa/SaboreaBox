@@ -1,14 +1,11 @@
-const express = require('express');
-const router = express.Router();
-const { neon } = require('@neondatabase/serverless');
-const verifyToken = require('../../middleware/verifyToken');
+//walletService.js
+const {neon} = require('@neondatabase/serverless');
 
-// Conectar a la base de datos Neon
 const sql = neon(process.env.DATABASE_URL);
 
-// Ruta para mostrar el perfil del usuario (wallet)
-router.get('/',verifyToken, async (req, res) => {
-    const userId = req.userId; // Supongamos que obtienes el userId del middleware de autenticación
+//--getShowProfile
+
+async function getShowProfile(userId) {
     try {
         const [user] = await sql`SELECT id, username, role, balance FROM users WHERE id = ${userId}`;
         const order_detail = await sql`SELECT  o.id AS order_id, od.quantity, od.price, p.name AS product_name, TO_CHAR(o.created_at,'DD/MM/YYYY')  AS order_date, od.quantity * od.price AS total
@@ -19,7 +16,10 @@ router.get('/',verifyToken, async (req, res) => {
                                        ORDER BY o.created_at DESC`;
         if (!user) {
             console.log(userId)
-            return res.status(404).json({ error: 'Usuario no encontrado' });
+            return {success: false,
+                message: "Usuario no encontrado",
+                "status": 404
+            };
         }
         console.log(order_detail);
         res.render('user', {
@@ -29,10 +29,12 @@ router.get('/',verifyToken, async (req, res) => {
             order_detail
         }); // Renderiza la vista del perfil del usuario
     } catch (error) {
-        console.error('Error al obtener el perfil del usuario:', error);
-        res.status(500).json({ error: 'Error en el servidor' });
+        console.log("Error al obtener el perfil del usuario:", error.message);
+        return {success: false,
+            message: "Error del servidor",
+            "status": 500
+        };
     }
-});
+}
 
-
-module.exports = router;
+module.exports = { getShowProfile };
