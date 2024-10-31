@@ -43,6 +43,7 @@ async function getAddToCart(userId, productId, quantity) {
     }
 
     try {
+
         await sql`
             INSERT INTO carts (user_id, product_id, quantity)
             VALUES (${userId}, ${productId}, ${quantity}) ON CONFLICT (user_id, product_id)
@@ -65,8 +66,8 @@ async function getAddToCart(userId, productId, quantity) {
 }
 
 //--getDeleteToCart
-//ta weno
-async function getRemoveFromCart(userId) {
+
+async function getRemoveFromCart(userId,productId) {
     if (!userId) {
         return {success: false,
             message: "Debes iniciar sesión para eliminar productos del carrito.",
@@ -75,11 +76,26 @@ async function getRemoveFromCart(userId) {
     }
 
     try {
+        //Verifica que el producto esté en el carrito
+        const Producto = await sql`
+            SELECT * FROM carts
+            WHERE user_id = ${userId} AND product_id = ${productId}
+        `;
+
+        if(Producto.length === 0){
+            return {
+                success: false,
+                message: "El producto no está en el carrito",
+                status: 404
+            };
+        }
+
         await sql`
             DELETE FROM carts
             WHERE user_id = ${userId} AND product_id = ${productId}
         `;
-        return {success: true,
+        return {
+            success: true,
             message: "Producto eliminado del carrito.",
             "status": 200
         };

@@ -142,7 +142,18 @@ router.post('/', verifyToken, async (req, res) => {
 router.delete('/', verifyToken, async (req, res) => {
     console.log("Remove",req.body);
     const userId = req.userId;
-    const result = await getRemoveFromCart(userId);
+    const { productId } = req.body;
+
+    //verificar que el producto no sea nulo o indefinido
+    if (!productId) {
+        return res.status(400).json({
+            success: false,
+            message: "El ID del producto es requerido.",
+            status: 400
+        });
+    }
+
+    const result = await getRemoveFromCart(userId,productId);
     res.json(result);
 });
 
