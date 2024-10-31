@@ -36,3 +36,17 @@ router.get('/', async (req, res) => {
 });
 
 module.exports = router;
+
+
+
+/*
+*  Tienes que probar los enpoints antes de decir que estan listo eso, ya que no carga el aplicativo cuando se reliza
+* el node app.js
+*
+* Lo mismo que te paso en wallet, tienes que separa la responsabilidad en 3 endpoint, para obtener el
+* El monto total vendido en el mes
+* Total de productos comprados,
+* y los usuarios activos en el mes
+*
+*
+* */

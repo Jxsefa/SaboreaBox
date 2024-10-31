@@ -22,6 +22,10 @@ async function getShowProfile(userId) {
             };
         }
         console.log(order_detail);
+        /* es esta parte tiene que retornar un json, no realizar el res.render, porque al realizar esto estas intentando
+        cargar el HTML y lo que se esta pidiendo es repornar un json y rescuerda que tienes que separar la responsabilidad
+        en servicio, porque esta el de obtener la informmacion del cliente y la de las infomacion de las compras.
+         */
         res.render('user', {
             title: 'Perfil de Usuario',
             username: user.username,

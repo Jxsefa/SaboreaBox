@@ -5,6 +5,7 @@ const router = require("../controller/auth");
 const sql = neon(process.env.DATABASE_URL);
 
 //--getViewCart
+//ta malo
 async function getViewCart(userId) {
     try {
         // Obtener los productos en el carrito del usuario desde la base de datos
@@ -15,7 +16,8 @@ async function getViewCart(userId) {
             WHERE c.user_id = ${userId}
         `;
 
-        // Renderizar la vista del carrito con el contenido del usuario autenticado
+        /* Lo mismo que te comente en el wallet, tienes que retornar un json no realizar el render de el html, porque si
+         no estas entregando un html y no un json que es lo que se pideeeeeee gracias.*/
         res.render('cart', {cart: cartItems}); //-- duda
     } catch (error) {
         console.log("Error al obtener el carrito:", error.message);
@@ -27,6 +29,7 @@ async function getViewCart(userId) {
 }
 
 //--getAddToCart
+//Ta malo
 async function getAddToCart(userId) {
     if (!userId) {
         return {success: false,
@@ -44,6 +47,7 @@ async function getAddToCart(userId) {
             UPDATE SET quantity = carts.quantity + ${quantity}
         `;
 
+        //tienes que retornar el json, no el res, porque en este contexto no existe
         res.json({success: true,
             message: 'Producto agregado al carrito.'});
     } catch (error) {
@@ -56,6 +60,7 @@ async function getAddToCart(userId) {
 }
 
 //--getDeleteToCart
+//ta weno
 async function getRemoveFromCart(userId) {
     if (!userId) {
         return {success: false,

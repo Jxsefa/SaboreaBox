@@ -55,5 +55,17 @@ router.get('/',verifyToken, async (req, res) => {
     res.json(result);
 });
 
+/*
+*
+* Tienes que probar los enpoints antes de decir que estan listo eso, ya que no carga el aplicativo cuando se reliza
+* el node app.js
+*
+* Te falta otro controlador, porque tienes que separar la responsabilidad de obtener la informacion del cliente
+* y la informacion de las compras del clientes
+*
+* */
+
+
+
 
 module.exports = router;

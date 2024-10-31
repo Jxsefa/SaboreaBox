@@ -62,6 +62,7 @@ router.get('/', verifyToken, async (req, res) => {
                     example: 401
  */
 // Ruta para agregar producto al carrito
+//ta malo
 router.post('/', verifyToken, async (req, res) => {
     console.log("AddToCart",req.body);
     const userId = req.userId;
@@ -128,6 +129,7 @@ router.post('/', verifyToken, async (req, res) => {
                     example: 500
  */
 // Ruta para eliminar un producto del carrito
+//ta weno
 router.delete('/', verifyToken, async (req, res) => {
     console.log("RemoveFromCart",req.body);
     const userId = req.userId;
@@ -137,3 +139,12 @@ router.delete('/', verifyToken, async (req, res) => {
 
 
 module.exports = router;
+
+
+
+/*
+*
+* Tienes que probar los enpoints antes de decir que estan listo eso, ya que no carga el aplicativo cuando se reliza
+* el node app.js
+*
+* */

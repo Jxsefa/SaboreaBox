@@ -30,7 +30,11 @@ async function getGeneralBalance() {
         // Obtener productos utilizando la función getProducts
         const products = await getProducts();
 
-        // Renderizar la vista de administración con los datos del dashboard -- duda
+        /* LO MISMO  aqui tienes que retornar un JSON
+        y tienes que separar la responsabilidad en mas servicio uno que El monto total vendido en el mes,
+        Total de productos comprados y los usuarios activos en el mes
+        * */
+
         res.render('admin', {
             title: 'Administración',
             totalVentas,
