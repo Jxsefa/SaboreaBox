@@ -11,7 +11,7 @@ const cartRoutes = require('./backend/controller/cartController');
 const paymentRoutes = require('./backend/controller/payment');
 const setNavbarAuth = require('./middleware/verifyTokenNav');
 const app = express();
-const PORT = 2000;
+const PORT = 3000;
 
 const sql = neon(process.env.DATABASE_URL);
 console.log('DATABASE_URL:', process.env.DATABASE_URL);

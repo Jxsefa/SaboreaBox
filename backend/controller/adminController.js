@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const {getGeneralBalance} = require('../services/adminService');
 
-@Swagger
+//@Swagger
 /*
 /Sales:
     get:

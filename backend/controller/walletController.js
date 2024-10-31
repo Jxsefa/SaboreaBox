@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const verifyToken = require('../../middleware/verifyToken');
-const {getShowProfile} = require("../services/walletService");
+const {getShowProfile, getOrdersView, getUserOrders} = require("../services/walletService");
 
-@Swagger
+//@Swagger
 /*
 /ViewProfile:
     get:
@@ -44,28 +44,39 @@ const {getShowProfile} = require("../services/walletService");
                     example: 500
 
  */
-//-- testeado y to good :D
 
 // Ruta para mostrar el perfil del usuario (wallet)
 router.get('/',verifyToken, async (req, res) => {
-    const userId = req.userId; // Supongamos que obtienes el userId del middleware de autenticación
+
+    const userId = req.userId;
     console.log("ViewProfile",req.body);
     const result = await getShowProfile(userId);
+    if (!result.success) {
+        return res.status(result.status).json(result);
+    }
 
-    res.json(result);
+    res.json({
+        title: 'Perfil del Usuario',
+        profile: result.profile
+    });
+
 });
 
-/*
-*
-* Tienes que probar los enpoints antes de decir que estan listo eso, ya que no carga el aplicativo cuando se reliza
-* el node app.js
-*
-* Te falta otro controlador, porque tienes que separar la responsabilidad de obtener la informacion del cliente
-* y la informacion de las compras del clientes
-*
-* */
+//Ruta para mostrar las ordenes del usuario
+router.get('/', verifyToken, async (req, res) => {
+    const userId = req.userId;
+    console.log("ViewOrders",req.body);
+    const result = await getUserOrders(userId);
 
+    if (!result.success) {
+        return res.status(result.status).json(result);
+    }
 
+    res.json({
+        title: 'Ordenes del Usuario',
+        order_detail: result.order_detail
+    });
+});
 
 
 module.exports = router;

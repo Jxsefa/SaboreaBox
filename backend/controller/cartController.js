@@ -4,9 +4,9 @@ require('dotenv').config();
 const verifyToken = require('../../middleware/verifyToken');
 const {getViewCart, getAddToCart, getRemoveFromCart} = require("../services/cartService");
 
-@Swagger
+//@Swagger
 /*
-/getViewCart:
+/ViewCart:
     get:
       summary: Muestra el contenido del carrito
       description: Despliega los productos que llenan el carrito gracias al ID del usuario
@@ -31,15 +31,18 @@ const {getViewCart, getAddToCart, getRemoveFromCart} = require("../services/cart
 // Ruta para mostrar el carrito de compras
 router.get('/', verifyToken, async (req, res) => {
     const userId = req.userId; // ID del usuario autenticado
-    console.log("ViewCart",req.body);
+    console.log("ViewCart", userId);
     const result = await getViewCart(userId);
 
+    if (!result.success) {
+        return res.status(result.status).json(result);
+    }
     res.json(result);
 });
 
-@Swagger
+//@Swagger
 /*
-/AddToCart:
+/Add:
     post:
       summary: Agrega contenido al carrito
       description: Agrega el contenido al carrito verificando si está logueado el usuario
@@ -62,19 +65,25 @@ router.get('/', verifyToken, async (req, res) => {
                     example: 401
  */
 // Ruta para agregar producto al carrito
-//ta malo
+
 router.post('/', verifyToken, async (req, res) => {
-    console.log("AddToCart",req.body);
+    console.log("Add",req.body);
     const userId = req.userId;
+    const { productId, quantity } = req.body;
+
     console.log("id", userId);
-    const result = await getAddToCart(userId);
+    const result = await getAddToCart(userId, productId, quantity);
+
+    if (!result.success) {
+        return res.status(result.status || 500).json(result);
+    }
+
     res.json(result);
-//-- duda
 });
 
-@Swagger
+//@Swagger
 /*
-/RemoveFromCart:
+/Remove:
     delete:
       summary: Remueve contenido al carrito
       description: Remueve el contenido al carrito verificando si está logueado el usuario
@@ -131,7 +140,7 @@ router.post('/', verifyToken, async (req, res) => {
 // Ruta para eliminar un producto del carrito
 //ta weno
 router.delete('/', verifyToken, async (req, res) => {
-    console.log("RemoveFromCart",req.body);
+    console.log("Remove",req.body);
     const userId = req.userId;
     const result = await getRemoveFromCart(userId);
     res.json(result);
