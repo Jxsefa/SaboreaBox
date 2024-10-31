@@ -6,14 +6,14 @@ const { engine } = require('express-handlebars');
 const swaggerJsdoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
 const authRoutes = require('./backend/controller/auth'); // Importar rutas de autenticación
-const adminRoutes = require('./backend/controller/admin'); // Rutas de administración
-const walletRoutes = require('./backend/controller/wallet');
+const adminRoutes = require('./backend/controller/adminController'); // Rutas de administración
+const walletRoutes = require('./backend/controller/walletController');
 const productRoutes = require('./backend/controller/productController');
-const cartRoutes = require('./backend/controller/cart');
+const cartRoutes = require('./backend/controller/cartController');
 const paymentRoutes = require('./backend/controller/paymentController');
 const setNavbarAuth = require('./middleware/verifyTokenNav');
 const app = express();
-const PORT = 2000;
+const PORT = 3000;
 
 
 const sql = neon(process.env.DATABASE_URL);

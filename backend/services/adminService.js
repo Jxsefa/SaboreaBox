@@ -1,12 +1,9 @@
-const express = require('express');
-const router = express.Router();
-const { neon } = require('@neondatabase/serverless');
+//adminService.js
+const {neon} = require('@neondatabase/serverless');
 
-// Conectar a la base de datos Neon
 const sql = neon(process.env.DATABASE_URL);
 
-// Ruta del Dashboard de Administración (GET /admin)
-router.get('/', async (req, res) => {
+async function getGeneralBalance() {
     try {
         const totalVentasResult = await sql`
             SELECT SUM(total_amount) AS total
@@ -33,7 +30,11 @@ router.get('/', async (req, res) => {
         // Obtener productos utilizando la función getProducts
         const products = await getProducts();
 
-        // Renderizar la vista de administración con los datos del dashboard
+        /* LO MISMO  aqui tienes que retornar un JSON
+        y tienes que separar la responsabilidad en mas servicio uno que El monto total vendido en el mes,
+        Total de productos comprados y los usuarios activos en el mes
+        * */
+
         res.render('admin', {
             title: 'Administración',
             totalVentas,
@@ -42,12 +43,13 @@ router.get('/', async (req, res) => {
             products
         });
     } catch (error) {
-        console.error('Error al obtener datos del Dashboard:', error);
-        res.status(500).send(`Error en el servidor: ${error.message}`);
+        console.log("Error al obtener datos del Dashboard:", error.message);
+        return {success: false,
+            message: "Error en el servidor",
+            "status": 500 };
     }
-});
+}
 
-// Ruta para guardar un producto con imagen
 
 // Función para obtener productos
 async function getProducts() {
@@ -59,10 +61,9 @@ async function getProducts() {
         `;
         return products;
     } catch (error) {
-        console.error('Error al obtener productos:', error);
+        console.log("Error al obtener productos:", error.message);
         throw error;
     }
 }
 
-
-module.exports = router;
+module.exports = { getGeneralBalance };
