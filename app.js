@@ -13,7 +13,7 @@ const cartRoutes = require('./backend/controller/cartController');
 const paymentRoutes = require('./backend/controller/paymentController');
 const setNavbarAuth = require('./middleware/verifyTokenNav');
 const app = express();
-const PORT = 3000;
+const PORT = 5000;
 
 
 const sql = neon(process.env.DATABASE_URL);
@@ -53,7 +53,7 @@ const swaggerOptions = {
         },
         servers: [
             {
-                url: 'http://localhost:2000',
+                url: 'http://34.227.50.4:5000',
             },
         ],
         components: {
@@ -74,7 +74,7 @@ const swaggerOptions = {
     apis: ['./backend/controller/**/*.js'],
 };
 const swaggerDocs = swaggerJsdoc(swaggerOptions);
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 
 app.use(express.static('./'));
@@ -88,14 +88,8 @@ app.use('/auth', authRoutes);
 app.use('/payment',paymentRoutes)
 
 
-app.get('/', (req, res) => res.render('home', { title: 'Inicio' }));
-app.get('/admin', (req, res) => res.render('admin', { title: 'Administración' }));
-app.get('/login', (req, res) => res.render('login', { title: 'Inicio sesión' }));
-app.get('/register', (req, res) => res.render('register', { title: 'Registro' }));
-app.get('/cart', (req, res) => res.render('cart', { title: 'Carrito de Compras' }));
 // Inicia el servidor en el puerto definido
 
 app.listen(PORT, () => {
     console.log(`Servidor corriendo en http://localhost:${PORT}`);
-    console.log(`Documentación en http://localhost:${PORT}/api-docs`);
 });
