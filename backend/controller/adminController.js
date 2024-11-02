@@ -2,44 +2,44 @@ const express = require('express');
 const router = express.Router();
 const {getSale, getSold, getUserActive} = require('../services/adminService');
 
-//@Swagger
-/*
-/sale:
-    get:
-      summary: Obtener total de ventas
-      description: Devuelve el total de ventas del mes actual.
-      responses:
-        '200':
-          description: Total de ventas obtenido exitosamente
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  totalVentas:
-                    type: integer
-                    example: 100000
-                  status:
-                    type: integer
-                    example: 200
-        '500':
-          description: Error al obtener los datos
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  success:
-                    type: boolean
-                    example: false
-                  message:
-                    type: string
-                    example: "Error en el servidor"
-                  status:
-                    type: integer
-                    example: 500
+/**
+ * @swagger
+ * admin/sale:
+ *   get:
+ *     summary: Obtener total de ventas
+ *     description: Devuelve el total de ventas del mes actual.
+ *     responses:
+ *       200:
+ *         description: Total de ventas obtenido exitosamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 totalVentas:
+ *                   type: integer
+ *                   example: 100000
+ *                 status:
+ *                   type: integer
+ *                   example: 200
+ *       500:
+ *         description: Error al obtener los datos
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: "Error en el servidor"
+ *                 status:
+ *                   type: integer
+ *                   example: 500
  */
-// Ruta del Dashboard de Administración (GET /admin)
+
 router.get('/sale', async (req, res) => {
     console.log("Sales",req.body);
     const result = await getSale();
