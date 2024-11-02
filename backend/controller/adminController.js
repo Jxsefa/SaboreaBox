@@ -4,9 +4,10 @@ const {getSale, getSold, getUserActive} = require('../services/adminService');
 
 /**
  * @swagger
- * admin/sale:
+ * /admin/sale:
  *   get:
  *     summary: Obtener total de ventas
+ *     tags: [Admin]
  *     description: Devuelve el total de ventas del mes actual.
  *     responses:
  *       200:
@@ -46,39 +47,40 @@ router.get('/sale', async (req, res) => {
     res.json(result);
 });
 
-//@Swagger
-/*
-/sold:
-    get:
-      summary: Obtener total de productos vendidos
-      description: Devuelve la cantidad total de productos vendidos en el mes
-      responses:
-        '200':
-          description: Total de productos vendidos obtenido exitosamente
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  productosVendidos:
-                    type: integer
-                    example: 150
-                  status:
-                    type: integer
-                    example: 200
-        '500':
-          description: Error al obtener la cantidad de productos vendidos
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: "Error en el servidor."
-                  status:
-                    type: integer
-                    example: 500
+/**
+ * @swagger
+ * /admin/sold:
+ *   get:
+ *     summary: Obtener total de productos vendidos
+ *     tags: [Admin]
+ *     description: Devuelve la cantidad total de productos vendidos en el mes
+ *     responses:
+ *       200:
+ *         description: Total de productos vendidos obtenido exitosamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 productosVendidos:
+ *                   type: integer
+ *                   example: 150
+ *                 status:
+ *                   type: integer
+ *                   example: 200
+ *       500:
+ *         description: Error al obtener la cantidad de productos vendidos
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Error en el servidor."
+ *                 status:
+ *                   type: integer
+ *                   example: 500
  */
 router.get('/sold', async (req, res) => {
     console.log("Sales",req.body);
@@ -86,39 +88,40 @@ router.get('/sold', async (req, res) => {
     res.json(result);
 });
 
-//@Swagger
-/*
-/user-active:
-    get:
-      summary: Obtener total de usuarios activos
-      description: Devuelve el número total de usuarios que han realizado pedidos en el mes actual.
-      responses:
-        '200':
-          description: Total de usuarios activos obtenido exitosamente
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  usuariosActivos:
-                    type: integer
-                    example: 75
-                  status:
-                    type: integer
-                    example: 200
-        '500':
-          description: Error al obtener la cantidad de usuarios activos
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: "Error en el servidor."
-                  status:
-                    type: integer
-                    example: 500
+/**
+ * @swagger
+ * /admin/user-active:
+ *   get:
+ *     summary: Obtener total de usuarios activos
+ *     tags: [Admin]
+ *     description: Devuelve el número total de usuarios que han realizado pedidos en el mes actual.
+ *     responses:
+ *       200:
+ *         description: Total de usuarios activos obtenido exitosamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 usuariosActivos:
+ *                   type: integer
+ *                   example: 75
+ *                 status:
+ *                   type: integer
+ *                   example: 200
+ *       500:
+ *         description: Error al obtener la cantidad de usuarios activos
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Error en el servidor."
+ *                 status:
+ *                   type: integer
+ *                   example: 500
  */
 router.get('/user-active', async (req, res) => {
     console.log("Sales",req.body);
