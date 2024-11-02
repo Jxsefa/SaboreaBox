@@ -66,7 +66,7 @@ router.get('/', verifyToken, async (req, res) => {
  */
 // Ruta para agregar producto al carrito
 
-router.post('/', verifyToken, async (req, res) => {
+router.post('/save', verifyToken, async (req, res) => {
     console.log("Add",req.body);
     const userId = req.userId;
     const { productId, quantity } = req.body;
@@ -139,7 +139,7 @@ router.post('/', verifyToken, async (req, res) => {
  */
 // Ruta para eliminar un producto del carrito
 //ta weno
-router.delete('/', verifyToken, async (req, res) => {
+router.delete('/remove', verifyToken, async (req, res) => {
     console.log("Remove",req.body);
     const userId = req.userId;
     const { productId } = req.body;
@@ -154,7 +154,12 @@ router.delete('/', verifyToken, async (req, res) => {
     }
 
     const result = await getRemoveFromCart(userId,productId);
-    res.json(result);
+
+    if(result.status >= 400){
+        console.log(result);
+       return res.status(result.status).json(result);
+    }
+    return res.json(result);
 });
 
 

@@ -63,7 +63,7 @@ router.get('/',verifyToken, async (req, res) => {
 });
 
 //Ruta para mostrar las ordenes del usuario
-router.get('/', verifyToken, async (req, res) => {
+router.get('/order', verifyToken, async (req, res) => {
     const userId = req.userId;
     console.log("ViewOrders",req.body);
     const result = await getUserOrders(userId);
@@ -74,7 +74,7 @@ router.get('/', verifyToken, async (req, res) => {
 
     res.json({
         title: 'Ordenes del Usuario',
-        order_detail: result.order_detail
+        order_detail: result.orders
     });
 });
 

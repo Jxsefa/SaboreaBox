@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const {getGeneralBalance} = require('../services/adminService');
+const {getSale, getSold, getUserActive} = require('../services/adminService');
 
 //@Swagger
 /*
@@ -29,24 +29,22 @@ const {getGeneralBalance} = require('../services/adminService');
 //--duda
 
 // Ruta del Dashboard de Administración (GET /admin)
-router.get('/', async (req, res) => {
+router.get('/sale', async (req, res) => {
     console.log("Sales",req.body);
-    const result = await getGeneralBalance();
+    const result = await getSale();
+    res.json(result);
+});
+
+router.get('/sold', async (req, res) => {
+    console.log("Sales",req.body);
+    const result = await getSold();
+    res.json(result);
+});
+
+router.get('/user-active', async (req, res) => {
+    console.log("Sales",req.body);
+    const result = await getUserActive();
     res.json(result);
 });
 
 module.exports = router;
-
-
-
-/*
-*  Tienes que probar los enpoints antes de decir que estan listo eso, ya que no carga el aplicativo cuando se reliza
-* el node app.js
-*
-* Lo mismo que te paso en wallet, tienes que separa la responsabilidad en 3 endpoint, para obtener el
-* El monto total vendido en el mes
-* Total de productos comprados,
-* y los usuarios activos en el mes
-*
-*
-* */
