@@ -6,11 +6,43 @@ const {getViewCart, getAddToCart, getRemoveFromCart} = require("../services/cart
 
 //@Swagger
 /*
-/ViewCart:
+/cart:
     get:
       summary: Muestra el contenido del carrito
       description: Despliega los productos que llenan el carrito gracias al ID del usuario
+      security:
+      - bearerAuth: []
       responses:
+        '200':
+          description: Carrito obtenido exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  cart:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        product_id:
+                          type: integer
+                          example: 1
+                        name:
+                          type: string
+                          example: "Tiramisu Box"
+                        price:
+                          type: integer
+                          example: 10000
+                        quantity:
+                          type: integer
+                          example: 1
+                        image_url:
+                          type: string
+                          example: "/public/images/tiramisu1.jpg"
         '500':
           description: Error al obtener los datos
           content:
@@ -42,11 +74,39 @@ router.get('/', verifyToken, async (req, res) => {
 
 //@Swagger
 /*
-/Add:
+/cart/save:
     post:
       summary: Agrega contenido al carrito
       description: Agrega el contenido al carrito verificando si está logueado el usuario
+      security:
+      - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  productId:
+                    type: integer
+                    example: 1
+                  quantity:
+                    type: integer
+                    example: 2
       responses:
+        '200':
+          description: Producto agregado al carrito exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Producto agregado al carrito."
         '401':
           description: Se debe loguear el usuario para agregar al carrito
           content:
@@ -63,6 +123,22 @@ router.get('/', verifyToken, async (req, res) => {
                   status:
                     type: integer
                     example: 401
+        '500':
+          description: Error al agregar el producto al carrito
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Error al agregar producto al carrito."
+                  status:
+                    type: integer
+                    example: 500
  */
 // Ruta para agregar producto al carrito
 
@@ -83,11 +159,40 @@ router.post('/save', verifyToken, async (req, res) => {
 
 //@Swagger
 /*
-/Remove:
+/cart/remove:
     delete:
       summary: Remueve contenido al carrito
       description: Remueve el contenido al carrito verificando si está logueado el usuario
       responses:
+        '200':
+          description: Se elimina correctamente un producto del usuario
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Producto eliminado del carrito."
+        '400':
+          description: Solicitud incorrecta, ID de producto requerido
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "Se requiere ID del producto."
+                  status:
+                    type: integer
+                    example: 400
         '401':
           description: Se debe loguear el usuario para remover contenido del carrito
           content:
@@ -104,8 +209,8 @@ router.post('/save', verifyToken, async (req, res) => {
                   status:
                     type: integer
                     example: 401
-        '200':
-          description: Se elimina correctamente un producto del usuario
+        '404':
+          description: Producto no encontrado en el carrito
           content:
             application/json:
               schema:
@@ -113,13 +218,13 @@ router.post('/save', verifyToken, async (req, res) => {
                 properties:
                   success:
                     type: boolean
-                    example: true
+                    example: false
                   message:
                     type: string
-                    example: "Producto eliminado del carrito."
+                    example: "El producto no está en el carrito."
                   status:
                     type: integer
-                    example: 200
+                    example: 404
         '500':
           description: Error al eliminar un producto del carrito
           content:
@@ -164,12 +269,3 @@ router.delete('/remove', verifyToken, async (req, res) => {
 
 
 module.exports = router;
-
-
-
-/*
-*
-* Tienes que probar los enpoints antes de decir que estan listo eso, ya que no carga el aplicativo cuando se reliza
-* el node app.js
-*
-* */
