@@ -94,6 +94,4 @@ async function saveOrUpdateProduct(productData, imagePath) {
         return 'Producto guardado exitosamente';
     }
 }
-
-
 module.exports = {getProductById, getProducts, deleteProductById, activeProductById, saveOrUpdateProduct};
