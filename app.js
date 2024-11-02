@@ -74,7 +74,7 @@ const swaggerOptions = {
     apis: ['./backend/controller/**/*.js'],
 };
 const swaggerDocs = swaggerJsdoc(swaggerOptions);
-app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 
 app.use(express.static('./'));
