@@ -5,6 +5,9 @@ const cookieParser = require('cookie-parser');
 const { engine } = require('express-handlebars');
 const swaggerJsdoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
+const fs = require('fs');
+const yaml = require('js-yaml');
+const cors = require('cors');
 const authRoutes = require('./backend/controller/auth'); // Importar rutas de autenticación
 const adminRoutes = require('./backend/controller/adminController'); // Rutas de administración
 const walletRoutes = require('./backend/controller/walletController');
@@ -74,9 +77,24 @@ const swaggerOptions = {
     apis: ['./backend/controller/**/*.js'],
 };
 const swaggerDocs = swaggerJsdoc(swaggerOptions);
+
 app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
+// Guardar la documentación en formato YAML
+try {
+    const yamlStr = yaml.dump(swaggerDocs);
+    fs.writeFileSync('./swagger.yaml', yamlStr, 'utf8');
+    console.log('Documentación YAML generada en ./swagger.yaml');
+} catch (e) {
+    console.error('Error al generar la documentación YAML:', e);
+}
 
+// Ruta opcional para descargar el archivo YAML
+app.get('/swagger.yaml', (req, res) => {
+    res.sendFile(__dirname + '/swagger.yaml');
+});
+
+app.use(cors());
 app.use(express.static('./'));
 
 app.use('/', authRoutes);
